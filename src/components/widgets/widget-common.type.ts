@@ -1,4 +1,4 @@
 export default interface IWidgetCommon {
     id: string;
-    layout: ReactGridLayout.Layout[];
+    layout: Omit<ReactGridLayout.Layout, 'i'>;
 }

@@ -1,5 +1,4 @@
 import { IWidget } from "../components/widgets/widget.type";
-import { ITodo } from "../components/widgets/todo/todo.type";
 
 export function getStorageKey(id: IWidget['id'], type: IWidget['type']) {
     return `w-${type}-${id}`;

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { INotepadWidget } from "../widget.type";
-import * as storage from "../../../utils/storage.helper";
-import { INotepadOptions } from "./notepad.options";
 import WidgetTile from "../../common/WidgetTile";
+import * as storage from "../../../utils/storage.helper";
+import { INotepadOptions, INotepadWidget } from "./notepad.model";
 
 interface NotepadProps {
     id: INotepadWidget['id'];

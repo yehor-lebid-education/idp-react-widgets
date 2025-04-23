@@ -1,8 +1,8 @@
-import { Globe } from "lucide-react";
-import WidgetTile from "../../common/WidgetTile";
-import { getFaviconUrl } from "./link.helper";
-import { ILinkOptions } from "./link.options";
 import { useState } from "react";
+import { Globe } from "lucide-react";
+import { ILinkOptions } from "./link.model";
+import { getFaviconUrl } from "./link.helper";
+import WidgetTile from "../../common/WidgetTile";
 
 interface LinkProps {
     options: ILinkOptions

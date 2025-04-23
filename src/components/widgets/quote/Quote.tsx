@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import WidgetTile from "../../common/WidgetTile";
-import { IQuoteOptions } from "./quote.options";
 import { IQuote } from "./quote.data";
+import WidgetTile from "../../common/WidgetTile";
 import { getRandomQuote } from "./quote.helper";
+import { IQuoteOptions } from "./quote.model";
 
 interface QuoteProps {
     options: IQuoteOptions;

@@ -1,9 +1,8 @@
-import { MouseEventHandler, useEffect, useState } from "react";
-import { ICounterWidget } from "../widget.type";
-import { ICounterOptions } from "./counter.options";
-import * as storage from '../../../utils/storage.helper';
+import { useEffect, useState } from "react";
 import WidgetTile from "../../common/WidgetTile";
+import * as storage from '../../../utils/storage.helper';
 import { Minus, Plus, RotateCcw } from "lucide-react";
+import { ICounterOptions, ICounterWidget } from "./counter.model";
 
 interface CounterProps {
     id: ICounterWidget['id'];
@@ -37,7 +36,7 @@ export default function Counter({ id, options }: CounterProps) {
                     <DecrementButton onClick={decrement} />
                     <span className="px-4 font-bold text-2xl">{counter}/{total}</span>
                     <IncrementButton onClick={increment} />
-                    <ResetButton onClick={reset}/>
+                    <ResetButton onClick={reset} />
                 </div>
                 <div className="text-lg tracking-wide mt-2">Tracker</div>
             </div>

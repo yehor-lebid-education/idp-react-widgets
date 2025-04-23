@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import { IClockOptions } from "./clock.options";
-import { getCurrentDateFormatted } from "../../../utils/date";
-import { IWidget } from "../widget.type";
 import WidgetTile from "../../common/WidgetTile";
-
+import { getCurrentDateFormatted } from "../../../utils/date";
+import { IClockOptions, IClockWidget } from "./clock.model";
 
 interface ClockProps {
-    id: IWidget['id'];
+    id: IClockWidget['id'];
     options: IClockOptions;
 }
-
 export default function Clock({ options }: ClockProps) {
     const { dateFormat } = options;
 
@@ -25,7 +22,7 @@ export default function Clock({ options }: ClockProps) {
 
     return (
         <WidgetTile>
-            <div className="text-2xl font-mono text-white tracking-widest">
+            <div className="text-lg font-mono text-white tracking-widest">
                 {date}
             </div>
         </WidgetTile>

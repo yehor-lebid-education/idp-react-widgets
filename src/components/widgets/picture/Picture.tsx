@@ -1,5 +1,5 @@
 import WidgetTile from "../../common/WidgetTile";
-import { IPictureOptions } from "./picture.options";
+import { IPictureOptions } from "./picture.model";
 
 interface PictureProps {
     options: IPictureOptions;

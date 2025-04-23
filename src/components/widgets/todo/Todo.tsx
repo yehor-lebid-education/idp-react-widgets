@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { ITodo } from "./todo.type";
 import { Plus, Trash2 } from "lucide-react";
 import generateId from "../../../utils/generate-id";
 import * as storage from "../../../utils/storage.helper";
-import { ITodoWidget } from "../widget.type";
 import WidgetTile from "../../common/WidgetTile";
+import { ITodo, ITodoWidget } from "./todo.model";
 
 interface TodoProps {
     id: ITodoWidget['id'];

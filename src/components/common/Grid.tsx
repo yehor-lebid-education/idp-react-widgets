@@ -1,19 +1,15 @@
 import GridLayout from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import { IWidget } from '../widgets/widget.type';
+import Widget from './Widget';
 
-const GridWidget = () => {
-    const layout = [
-        { i: '1', x: 0, y: 0, w: 2, h: 2 },
-        { i: '2', x: 2, y: 0, w: 2, h: 2 },
-        { i: '3', x: 4, y: 0, w: 2, h: 2 },
-    ];
+const GridWidget = ({ widgets }: { widgets: IWidget[] }) => {
 
     return (
         <div className="w-screen h-screen bg-black">
             <GridLayout
                 className="layout"
-                layout={layout}
                 cols={8}
                 maxRows={9}
                 rowHeight={80}
@@ -24,12 +20,13 @@ const GridWidget = () => {
                 compactType={null}
                 preventCollision={true}
             >
-                {layout.map((item) => (
+                {widgets.map(widget => (
                     <div
-                        key={item.i}
-                        className="bg-white/10 border border-white/20 rounded-2xl backdrop-blur-md shadow-lg flex items-center justify-center text-white font-mono"
+                        key={widget.id}
+                        data-grid={widget.layout}
+                        className="bg-white/10 border border-white/20 rounded-2xl backdrop-blur-md shadow-lg flex items-center justify-center text-white font-mono overflow-hidden"
                     >
-                        Item {item.i}
+                        <Widget widget={widget} />
                     </div>
                 ))}
             </GridLayout>
@@ -40,7 +37,15 @@ const GridWidget = () => {
 export default GridWidget;
 
 
+/*
 
+{widgets.map(widget => (
+                    <div key={widget.id}>
+                        <Widget widget={widget} />
+                    </div>
+                ))}
+
+*/
 
 
 /*

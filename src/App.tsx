@@ -1,11 +1,11 @@
 import { IWidget } from './components/widgets/widget.type'
-import { ClockWidget } from './components/widgets/clock/clock.model';
-import { CounterWidget } from './components/widgets/counter/counter.model';
-import { LinkWidget } from './components/widgets/link/link.model';
-import { NotepadWidget } from './components/widgets/notepad/notepad.model';
+import { ClockWidget } from './components/widgets/clock/clock.types';
+import { CounterWidget } from './components/widgets/counter/counter.types';
+import { LinkWidget } from './components/widgets/link/link.types';
+import { NotepadWidget } from './components/widgets/notepad/notepad.types';
 import { PictureWidget } from './components/widgets/picture/picture.model';
-import { QuoteWidget } from './components/widgets/quote/quote.model';
-import { TodoWidget } from './components/widgets/todo/todo.model';
+import { QuoteWidget } from './components/widgets/quote/quote.types';
+import { TodoWidget } from './components/widgets/todo/todo.types';
 import GridWidget from './components/common/Grid';
 
 const widgets: IWidget[] = [

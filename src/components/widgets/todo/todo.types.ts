@@ -14,15 +14,3 @@ export interface ITodo {
     label: string;
     isDone: boolean;
 }
-
-export class TodoWidget implements ITodoWidget {
-    public type: ITodoWidget['type'] = 'todo';
-
-    constructor(
-        public id: ITodoWidget['id'],
-        public layout: ITodoWidget['layout'],
-        public options: ITodoWidget['options'],
-    ) {
-
-    }
-}

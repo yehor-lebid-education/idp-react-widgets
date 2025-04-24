@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import WidgetTile from "../../common/WidgetTile";
 import * as storage from '../../../utils/storage.helper';
 import { Minus, Plus, RotateCcw } from "lucide-react";
-import { ICounterOptions, ICounterWidget } from "./counter.model";
+import { ICounterOptions, ICounterWidget } from "./counter.types";
 
 interface CounterProps {
     id: ICounterWidget['id'];
@@ -30,17 +29,15 @@ export default function Counter({ id, options }: CounterProps) {
     }
 
     return (
-        <WidgetTile>
-            <div className="text-center">
-                <div className="flex items-center justify-center mr-[-58px]">
-                    <DecrementButton onClick={decrement} />
-                    <span className="px-4 font-bold text-2xl">{counter}/{total}</span>
-                    <IncrementButton onClick={increment} />
-                    <ResetButton onClick={reset} />
-                </div>
-                <div className="text-lg tracking-wide mt-2">Tracker</div>
+        <div className="text-center">
+            <div className="flex items-center justify-center mr-[-58px]">
+                <DecrementButton onClick={decrement} />
+                <span className="px-4 font-bold text-2xl">{counter}/{total}</span>
+                <IncrementButton onClick={increment} />
+                <ResetButton onClick={reset} />
             </div>
-        </WidgetTile>
+            <div className="text-lg tracking-wide mt-2">Tracker</div>
+        </div>
     )
 }
 

@@ -1,4 +1,3 @@
-import WidgetTile from "../../common/WidgetTile";
 import { IPictureOptions } from "./picture.model";
 
 interface PictureProps {
@@ -9,18 +8,16 @@ export default function Picture({ options }: PictureProps) {
     const { url, title } = options;
 
     return (
-        <WidgetTile>
-            <div className="overflow-hidden text-white w-50">
-                {title && <PictureTitle title={title} />}
-                <div className="p-4">
-                    <img
-                        src={url}
-                        alt={title || 'Image'}
-                        className="rounded-xl w-full object-cover"
-                    />
-                </div>
+        <div className="overflow-hidden text-white w-50">
+            {title && <PictureTitle title={title} />}
+            <div className="p-4">
+                <img
+                    src={url}
+                    alt={title || 'Image'}
+                    className="rounded-xl w-full object-cover"
+                />
             </div>
-        </WidgetTile>
+        </div>
     );
 };
 

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { IQuote } from "./quote.data";
-import WidgetTile from "../../common/WidgetTile";
 import { getRandomQuote } from "./quote.helper";
-import { IQuoteOptions } from "./quote.model";
+import { IQuoteOptions } from "./quote.types";
 
 interface QuoteProps {
     options: IQuoteOptions;
@@ -22,10 +21,10 @@ export default function Quote({ options }: QuoteProps) {
     }, []);
 
     return (
-        <WidgetTile>
+        <>
             <QuoteText text={quote.text} />
             <QuoteAuthor author={quote.author} />
-        </WidgetTile>
+        </>
     );
 }
 

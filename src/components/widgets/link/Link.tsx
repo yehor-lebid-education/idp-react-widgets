@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Globe } from "lucide-react";
-import { ILinkOptions } from "./link.model";
+import { ILinkOptions } from "./link.types";
 import { getFaviconUrl } from "./link.helper";
-import WidgetTile from "../../common/WidgetTile";
 
 interface LinkProps {
     options: ILinkOptions
@@ -12,19 +11,17 @@ export default function Link({ options }: LinkProps) {
     const { url, label } = options;
 
     return (
-        <WidgetTile>
-            <div>
-                <a
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 font-medium hover:underline"
-                >
-                    <Favicon url={url} />
-                    <span>{label}</span>
-                </a>
-            </div>
-        </WidgetTile>
+        <div>
+            <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 font-medium hover:underline"
+            >
+                <Favicon url={url} />
+                <span>{label}</span>
+            </a>
+        </div>
     )
 }
 

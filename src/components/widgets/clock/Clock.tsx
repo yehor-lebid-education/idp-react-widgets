@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import WidgetTile from "../../common/WidgetTile";
 import { getCurrentDateFormatted } from "../../../utils/date";
-import { IClockOptions, IClockWidget } from "./clock.model";
+import { IClockOptions, IClockWidget } from "./clock.types";
 
 interface ClockProps {
     id: IClockWidget['id'];
@@ -21,10 +20,8 @@ export default function Clock({ options }: ClockProps) {
     }, []);
 
     return (
-        <WidgetTile>
-            <div className="text-lg font-mono text-white tracking-widest">
-                {date}
-            </div>
-        </WidgetTile>
+        <div className="text-lg font-mono text-white tracking-widest">
+            {date}
+        </div>
     )
 }

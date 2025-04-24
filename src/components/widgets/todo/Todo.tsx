@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import generateId from "../../../utils/generate-id";
 import * as storage from "../../../utils/storage.helper";
-import WidgetTile from "../../common/WidgetTile";
-import { ITodo, ITodoWidget } from "./todo.model";
+import { ITodo, ITodoWidget } from "./todo.types";
 
 interface TodoProps {
     id: ITodoWidget['id'];
@@ -32,20 +31,18 @@ export default function Todo({ id }: TodoProps) {
     }
 
     return (
-        <WidgetTile>
-            <ul className="space-y-4">
-                {todos.map(todo => (
-                    <li key={todo.id}>
-                        <TodoItem
-                            todo={todo}
-                            onDelete={handleDelete}
-                            onToggleDone={handleToggleIsDone}
-                        />
-                    </li>
-                ))}
-                <TodoItemAdd onAdd={handleAdd} />
-            </ul>
-        </WidgetTile>
+        <ul className="space-y-4">
+            {todos.map(todo => (
+                <li key={todo.id}>
+                    <TodoItem
+                        todo={todo}
+                        onDelete={handleDelete}
+                        onToggleDone={handleToggleIsDone}
+                    />
+                </li>
+            ))}
+            <TodoItemAdd onAdd={handleAdd} />
+        </ul>
     );
 }
 

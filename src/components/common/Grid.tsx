@@ -1,10 +1,28 @@
-import GridLayout from 'react-grid-layout';
+import GridLayout, { Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import { IWidget } from '../widgets/widget.type';
 import Widget from './Widget';
 
+interface GridWidgetProps {
+    widgets: IWidget[];
+    onWidgetLayoutChange: (newWidget: IWidget) => void;
+}
 const GridWidget = ({ widgets }: { widgets: IWidget[] }) => {
+
+    function handleLayoutChange(layout: Layout[]) {
+        console.log({ msg: 'layout Change', layout });
+    }
+
+    function handleResizeStop(_layout: Layout[], _oldLayout: Layout, newLayout: Layout) {
+        const { i, w, h } = newLayout;
+        const widget = widgets.find(widget => widget.id === i);
+        if (!widget) return;
+    }
+
+    function handleDragStop(...props) {
+        console.log({ msg: 'drag stop', props });
+    }
 
     return (
         <div className="w-screen h-screen bg-black">
@@ -19,6 +37,9 @@ const GridWidget = ({ widgets }: { widgets: IWidget[] }) => {
                 isDraggable={true}
                 compactType={null}
                 preventCollision={true}
+                onLayoutChange={handleLayoutChange}
+                onResizeStop={handleResizeStop}
+                onDragStop={handleDragStop}
             >
                 {widgets.map(widget => (
                     <div

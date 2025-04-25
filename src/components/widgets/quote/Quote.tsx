@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { IQuote } from "./quote.data";
 import { getRandomQuote } from "./quote.helper";
 import { IQuoteOptions } from "./quote.types";
+import { QUOTE_REFRESH_DURATION } from "./quote.config";
 
 interface QuoteProps {
     options: IQuoteOptions;
 }
-
-const DEFAULT_REFRESH_DURATION = 1000 * 60 * 5; // 5 minutes
 
 export default function Quote({ options }: QuoteProps) {
     const [quote, setQuote] = useState<IQuote>(getRandomQuote());
@@ -15,7 +14,7 @@ export default function Quote({ options }: QuoteProps) {
     useEffect(() => {
         const intervalId = setInterval(
             () => setQuote(getRandomQuote()),
-            options.refreshDuration || DEFAULT_REFRESH_DURATION
+            options.refreshDuration || QUOTE_REFRESH_DURATION
         );
         return () => clearInterval(intervalId);
     }, []);

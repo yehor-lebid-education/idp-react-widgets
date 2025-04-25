@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import * as storage from '../../../utils/storage.helper';
 import { Minus, Plus, RotateCcw } from "lucide-react";
+import * as storage from '../../../utils/storage.helper';
 import { ICounterOptions, ICounterWidget } from "./counter.types";
+import { COUNTER_BUTTONS_SIZE } from "./counter.config";
 
 interface CounterProps {
     id: ICounterWidget['id'];
@@ -51,7 +52,7 @@ function DecrementButton({ onClick }: CommonButtonProps) {
             className="cursor-pointer p-2 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition"
             onClick={() => onClick()}
         >
-            <Minus className="w-3 h-3" />
+            <Minus size={COUNTER_BUTTONS_SIZE} />
         </button>
     )
 }
@@ -62,7 +63,7 @@ function IncrementButton({ onClick }: CommonButtonProps) {
             className="cursor-pointer p-2 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition"
             onClick={() => onClick()}
         >
-            <Plus className="w-3 h-3" />
+            <Plus size={COUNTER_BUTTONS_SIZE} />
         </button>
     )
 }
@@ -86,7 +87,7 @@ function ResetButton({ onClick }: CommonButtonProps) {
             className={`ml-6 cursor-pointer p-2 border border-white/20 rounded-full ${bgColor} transition`}
             onClick={handleClick}
         >
-            <RotateCcw className="w-3 h-3" />
+            <RotateCcw size={COUNTER_BUTTONS_SIZE} />
         </button>
     )
 }

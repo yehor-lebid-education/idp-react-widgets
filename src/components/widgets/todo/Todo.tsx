@@ -3,6 +3,7 @@ import { Plus, Trash2 } from "lucide-react";
 import generateId from "../../../utils/generate-id";
 import * as storage from "../../../utils/storage.helper";
 import { ITodo, ITodoWidget } from "./todo.types";
+import { TODO_ADD_ICON_SIZE, TODO_DELETE_ICON_SIZE } from "./todo.config";
 
 interface TodoProps {
     id: ITodoWidget['id'];
@@ -73,7 +74,7 @@ function TodoItem({ todo, onDelete, onToggleDone }: TodoItemProps) {
                 aria-label={`Delete ${label}`}
                 onClick={() => onDelete(id)}
             >
-                <Trash2 size={18} className="text-white" />
+                <Trash2 size={TODO_DELETE_ICON_SIZE} className="text-white" />
             </button>
         </div>
     )
@@ -113,7 +114,7 @@ function TodoItemAdd({ onAdd }: TodoItemAddProps) {
                 disabled={!todo.length}
                 onClick={handleAdd}
             >
-                <Plus size={20} />
+                <Plus size={TODO_ADD_ICON_SIZE} />
             </button>
         </div>
     )

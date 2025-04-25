@@ -6,7 +6,6 @@ import Picture from "../widgets/picture/Picture";
 import Quote from "../widgets/quote/Quote";
 import Todo from "../widgets/todo/Todo";
 import { IWidget } from "../widgets/widget.type";
-import WidgetTile from "./WidgetTile";
 
 
 interface WidgetProps {
@@ -36,9 +35,11 @@ export default function Widget({ widget }: WidgetProps) {
         }
     }
 
+    const widgetComponent = renderWidget();
+
     return (
-        <WidgetTile>
-            {renderWidget()}
-        </WidgetTile>
+        <div className="w-full h-full flex items-center justify-center overflow-hidden">
+            {widgetComponent}
+        </div>
     );
 }

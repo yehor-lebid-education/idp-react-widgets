@@ -1,21 +1,16 @@
 import { IWidget } from './components/widgets/widget.type'
-import { ClockWidget } from './components/widgets/clock/clock.types';
-import { CounterWidget } from './components/widgets/counter/counter.types';
-import { LinkWidget } from './components/widgets/link/link.types';
-import { NotepadWidget } from './components/widgets/notepad/notepad.types';
-import { PictureWidget } from './components/widgets/picture/picture.model';
-import { QuoteWidget } from './components/widgets/quote/quote.types';
-import { TodoWidget } from './components/widgets/todo/todo.types';
 import GridWidget from './components/common/Grid';
+import * as widgetHelper from './components/widgets/widget.helper';
 
 const widgets: IWidget[] = [
-    new ClockWidget('test-1', { x: 0, y: 0, w: 4, h: 1 }, { dateFormat: 'dddd, MMMM D, YYYY h:mm:ss' }),
-    // new CounterWidget('test-2', { x: 2, y: 0, w: 2, h: 2 }, { step: 1, total: 10 }),
-    // new LinkWidget('test-3', { x: 4, y: 0, w: 2, h: 2 }, { label: 'Google', url: 'https://google.com' }),
-    // new NotepadWidget('test-4', { x: 6, y: 0, w: 2, h: 2 }, { title: '📝 Notes' }),
-    // new PictureWidget('test-5', { x: 0, y: 2, w: 2, h: 2 }, { url: 'https://picsum.photos/200/300', title: 'Picture' }),
-    // new QuoteWidget('test-6', { x: 2, y: 2, w: 2, h: 2 }, { refreshDuration: 1000 * 10 }),
-    // new TodoWidget('test-7', { x: 4, y: 2, w: 2, h: 2 }, {}),
+    widgetHelper.createClockWidget({ id: 'test-1', layout: { x: 0, y: 0, w: 2, h: 1 }, options: { dateFormat: 'dddd, MMMM D, YYYY h:mm:ss' } }),
+    widgetHelper.createCounterWidget({ id: 'test-2', layout: { x: 2, y: 0, w: 2, h: 2 }, options: { step: 1, total: 10 } }),
+    widgetHelper.createLinkWidget({ id: 'test-3', layout: { x: 4, y: 0, w: 1, h: 1 }, options: { label: 'Google', url: 'https://google.com' } }),
+    widgetHelper.createNotepadWidget({ id: 'test-4', layout: { x: 0, y: 4, w: 2, h: 2 }, options: { title: '📝 Notes' } }),
+    
+    widgetHelper.createTodoWidget({ id: 'test-7', layout: { x: 4, y: 2, w: 3, h: 4 }, options: {} }),
+    widgetHelper.createPictureWidget({ id: 'test-5', layout: { x: 0, y: 2, w: 2, h: 2 }, options: { url: 'https://picsum.photos/200/300', title: 'Picture' } }),
+    widgetHelper.createQuoteWidget({ id: 'test-6', layout: { x: 2, y: 2, w: 2, h: 2 }, options: { refreshDuration: 1000 * 60 * 10 } }),
 ];
 
 export default function App() {

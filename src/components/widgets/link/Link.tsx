@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Globe } from "lucide-react";
 import { ILinkOptions } from "./link.types";
 import { getFaviconUrl } from "./link.helper";
+import { LINK_ICON_SIZE } from "./link.config";
 
 interface LinkProps {
     options: ILinkOptions
@@ -34,9 +35,11 @@ function Favicon({ url }: FaviconProps) {
     const [faviconError, setFaviconError] = useState(false);
 
     if (!favicon || faviconError) {
-        return <Globe className="w-5 h-5 text-white/80" />;
+        return <Globe size={LINK_ICON_SIZE} className="text-white/80" />;
     }
 
+    // TODO: Does not work.
+    // TODO: Replace with Image component
     return (
         <img
             src={favicon}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getCurrentDateFormatted } from "../../../utils/date";
 import { IClockOptions, IClockWidget } from "./clock.types";
+import { CLOCK_REFRESH_INTERVAL } from "./clock.config";
 
 interface ClockProps {
     id: IClockWidget['id'];
@@ -14,7 +15,7 @@ export default function Clock({ options }: ClockProps) {
     useEffect(() => {
         const intervalId = setInterval(() => {
             setDate(getCurrentDateFormatted(dateFormat));
-        }, 1000);
+        }, CLOCK_REFRESH_INTERVAL);
 
         return () => clearInterval(intervalId);
     }, []);

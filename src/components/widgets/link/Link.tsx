@@ -3,6 +3,7 @@ import { Globe } from "lucide-react";
 import { ILinkOptions } from "./link.types";
 import { getFaviconUrl } from "./link.helper";
 import { LINK_ICON_SIZE } from "./link.config";
+import WidgetContainer from "../../common/WidgetContainer";
 
 interface LinkProps {
     options: ILinkOptions
@@ -12,7 +13,7 @@ export default function Link({ options }: LinkProps) {
     const { url, label } = options;
 
     return (
-        <div>
+        <WidgetContainer>
             <a
                 href={url}
                 target="_blank"
@@ -22,7 +23,7 @@ export default function Link({ options }: LinkProps) {
                 <Favicon url={url} />
                 <span>{label}</span>
             </a>
-        </div>
+        </WidgetContainer>
     )
 }
 

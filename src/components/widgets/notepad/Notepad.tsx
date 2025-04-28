@@ -10,10 +10,10 @@ interface NotepadProps {
 export default function Notepad({ id, options }: NotepadProps) {
     const { title } = options;
 
-    const [text, setText] = useState(storage.get(id, 'notepad') || '');
+    const [text, setText] = useState(storage.getWidget(id, 'notepad') || '');
 
     useEffect(() => {
-        storage.save(id, 'notepad', text);
+        storage.saveWidget(id, 'notepad', text);
     }, [text]);
 
     return (

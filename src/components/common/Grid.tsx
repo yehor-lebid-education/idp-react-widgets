@@ -5,52 +5,72 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
 import Widget from './Widget';
-import { Edit3, Eye, Minus } from 'lucide-react';
+import { Edit3, Eye, Minus, Plus } from 'lucide-react';
 import classname from '../../utils/classname';
-import { IWidget } from '../widgets/widget.type';
-import { NON_DRAGGABLE_CLASS } from '../../constants';
+import { IWidget, IWidgetLayoutChange } from '../widgets/widget.type';
+import { GRID, NON_DRAGGABLE_CLASS } from '../../constants';
+import { hasLayoutChange } from '../widgets/widget.helper';
+import WidgetSelector from './WidgetSelector';
 
 interface GridWidgetProps {
     widgets: IWidget[];
-    onWidgetLayoutChange?: (newWidget: IWidget) => void;
+    // Handle both size change and movement
+    onWidgetLayoutChange?: (id: IWidget['id'], newLayout: IWidgetLayoutChange) => void;
+    onWidgetDelete?: (id: IWidget['id']) => void;
 }
-const GridWidget = ({ widgets }: GridWidgetProps) => {
+export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDelete }: GridWidgetProps) {
     const [editMode, setEditMode] = useState(true);
+    const [addMode, setAddMode] = useState(true);
 
-    function handleLayoutChange(layout: Layout[]) {
-        // console.log({ msg: 'layout Change', layout });
+    function handleLayoutChange(_layout: Layout[], _oldLayout: Layout, newLayout: Layout) {
+        if (typeof onWidgetLayoutChange !== 'function') {
+            return;
+        }
+
+        const layoutChange = {
+            x: newLayout.x,
+            y: newLayout.y,
+            w: newLayout.w,
+            h: newLayout.h,
+        };
+
+        // Check if layout is actually changed
+        const widget = widgets.find(w => w.id === newLayout.i);
+        if (!widget || !hasLayoutChange(widget.layout, layoutChange)) {
+            return;
+        }
+
+        onWidgetLayoutChange(widget.id, layoutChange);
     }
 
-    function handleResizeStop(_layout: Layout[], _oldLayout: Layout, newLayout: Layout) {
-        // const { i, w, h } = newLayout;
-        // const widget = widgets.find(widget => widget.id === i);
-        // if (!widget) return;
-    }
+    function handleAddWidget(widget: IWidget) {
 
-    function handleDragStop(_layout: Layout[], _oldLayout: Layout, newLayout: Layout) {
-        // console.log({ msg: 'drag stop', props });
     }
 
     function handleDeleteWidget(id: IWidget['id']) {
+        if (typeof onWidgetDelete !== 'function') {
+            return;
+        }
+
+        onWidgetDelete(id);
     }
 
     return (
         <div className="w-screen h-screen bg-black">
             <GridLayout
                 className="layout"
-                cols={8}
-                maxRows={9}
-                rowHeight={80}
-                width={window.innerWidth}
+                cols={GRID.COLS}
+                maxRows={GRID.ROWS}
+                rowHeight={GRID.ROW_HEIGHT}
+                width={GRID.WIDTH}
                 margin={[12, 12]}
                 isResizable={editMode}
                 isDraggable={editMode}
                 compactType={null}
                 preventCollision={true}
-                draggableCancel={'.' + NON_DRAGGABLE_CLASS}
-                onLayoutChange={handleLayoutChange}
-                onResizeStop={handleResizeStop}
-                onDragStop={handleDragStop}
+                draggableCancel={GRID.DRAGGABLE_CANCEL}
+                onResizeStop={handleLayoutChange}
+                onDragStop={handleLayoutChange}
             >
                 {widgets.map(widget => (
                     <div
@@ -62,32 +82,63 @@ const GridWidget = ({ widgets }: GridWidgetProps) => {
                         )}
                     >
                         {editMode && <ButtonDelete onClick={() => handleDeleteWidget(widget.id)} />}
-                        <Widget widget={widget} />
+                        <Widget editMode={editMode} widget={widget} />
                     </div>
                 ))}
             </GridLayout>
 
-            <button
-                onClick={() => setEditMode(prev => !prev)}
-                title={editMode ? 'View' : 'Edit'}
-                className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-transparent text-white hover:bg-white/20 transition shadow-md cursor-pointer fixed bottom-2 right-2"
-            >
-                {editMode ? <Eye size={20} /> : <Edit3 size={20} />}
-            </button>
+            <div className="flex flex-col fixed bottom-2 right-2">
+                {editMode && <AddWidgetButton onClick={() => setAddMode(true)} />}
+                <EditViewGridButton editMode={editMode} onClick={() => setEditMode(prev => !prev)} />
+            </div>
 
-            {/* <button
-                className="text-white cursor-pointer"
-                onClick={() => setEditMode(prev => !prev)}
-            >Toggle Edit</button> */}
-
+            {addMode && (
+                <WidgetSelector
+                    onClose={() => setAddMode(false)}
+                    onAdd={(widget: IWidget) => handleAddWidget(widget)}
+                />)
+            }
         </div>
     );
 };
 
-export default GridWidget;
+interface AddWidgetButtonProps {
+    onClick: () => void;
+}
+function AddWidgetButton({ onClick }: AddWidgetButtonProps) {
+    return (
+        <button
+            onClick={() => onClick()}
+            title="Add"
+            className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-transparent text-white hover:bg-white/20 transition shadow-md cursor-pointer"
+        >
+            <Plus size={20} /> Add
+        </button>
+    );
+}
 
 
-function ButtonDelete({ onClick }: { onClick: () => void }) {
+interface EditViewGridButtonProps {
+    editMode: boolean;
+    onClick: () => void;
+}
+function EditViewGridButton({ editMode, onClick }: EditViewGridButtonProps) {
+    return (
+        <button
+            onClick={() => onClick()}
+            title={editMode ? 'View' : 'Edit'}
+            className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-transparent text-white hover:bg-white/20 transition shadow-md cursor-pointer"
+        >
+            {editMode ? <Eye size={20} /> : <Edit3 size={20} />}
+            {editMode ? 'View' : ''}
+        </button>
+    );
+}
+
+interface ButtonDeleteProps {
+    onClick?: () => void;
+}
+function ButtonDelete({ onClick }: ButtonDeleteProps) {
     function handleClick() {
         if (typeof onClick === 'function') {
             onClick();

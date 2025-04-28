@@ -1,7 +1,7 @@
 import { IWidgetLayoutConfig } from "../widget.type";
 
 export const TODO_LAYOUT_CONFIG: IWidgetLayoutConfig = {
-    minH: 1,
+    minH: 4,
     minW: 3,
     // maxH: 3,
     // maxW: 9,

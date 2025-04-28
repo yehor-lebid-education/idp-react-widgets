@@ -17,3 +17,4 @@ export type IWidget =
 
 export type IWidgetType = IWidget['type'];
 export type IWidgetLayoutConfig = Pick<IWidget['layout'], 'minH' | 'minW' | 'maxH' | 'maxW'>;
+export type IWidgetLayoutChange = Pick<IWidget['layout'], 'x' | 'y' | 'w' | 'h'>;

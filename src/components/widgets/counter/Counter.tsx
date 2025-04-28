@@ -3,6 +3,7 @@ import { Minus, Plus, RotateCcw } from "lucide-react";
 import * as storage from '../../../utils/storage.helper';
 import { ICounterOptions, ICounterWidget } from "./counter.types";
 import { COUNTER_BUTTONS_SIZE } from "./counter.config";
+import WidgetContainer from "../../common/WidgetContainer";
 
 interface CounterProps {
     id: ICounterWidget['id'];
@@ -11,10 +12,10 @@ interface CounterProps {
 
 export default function Counter({ id, options }: CounterProps) {
     const { step, total } = options;
-    const [counter, setCounter] = useState<number>(Number(storage.get(id, 'counter')) || 0);
+    const [counter, setCounter] = useState<number>(Number(storage.getWidget(id, 'counter')) || 0);
 
     useEffect(() => {
-        storage.save(id, 'counter', counter);
+        storage.saveWidget(id, 'counter', counter);
     }, [counter]);
 
     function increment() {
@@ -30,15 +31,15 @@ export default function Counter({ id, options }: CounterProps) {
     }
 
     return (
-        <div className="text-center">
-            <div className="flex items-center justify-center mr-[-58px]">
+        <WidgetContainer className="text-center">
+            <div className="flex items-center justify-center">
+                <div className="text-sm tracking-wide pr-4">Tracker:</div>
                 <DecrementButton onClick={decrement} />
-                <span className="px-4 font-bold text-2xl">{counter}/{total}</span>
+                <span className="px-3 font-bold text-lg strong">{counter}/{total}</span>
                 <IncrementButton onClick={increment} />
                 <ResetButton onClick={reset} />
             </div>
-            <div className="text-lg tracking-wide mt-2">Tracker</div>
-        </div>
+        </WidgetContainer>
     )
 }
 

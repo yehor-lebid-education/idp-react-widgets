@@ -10,10 +10,10 @@ interface TodoProps {
 }
 
 export default function Todo({ id }: TodoProps) {
-    const [todos, setTodos] = useState<ITodo[]>(storage.get(id, 'todo') || []);
+    const [todos, setTodos] = useState<ITodo[]>(storage.getWidget(id, 'todo') || []);
 
     useEffect(() => {
-        storage.save(id, 'todo', todos);
+        storage.saveWidget(id, 'todo', todos);
     }, [todos]);
 
     function handleToggleIsDone(id: ITodo['id']) {
@@ -32,7 +32,7 @@ export default function Todo({ id }: TodoProps) {
     }
 
     return (
-        <ul className="space-y-4">
+        <ul className="space-y-4 p-4">
             {todos.map(todo => (
                 <li key={todo.id}>
                     <TodoItem

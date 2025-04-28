@@ -1,18 +1,22 @@
 import { IWidget } from "../components/widgets/widget.type";
 
-export function getStorageKey(id: IWidget['id'], type: IWidget['type']) {
-    return `w-${type}-${id}`;
+export function saveWidget(id: IWidget['id'], type: IWidget['type'], data: any) {
+    const key = getWidgetStorageKey(id, type);
+    save(key, data);
 }
 
-export function save(id: IWidget['id'], type: IWidget['type'], data: any) {
-    const key = getStorageKey(id, type);
+export function getWidget(id: IWidget['id'], type: IWidget['type']): any {
+    const key = getWidgetStorageKey(id, type);
+    return get(key);
+}
+
+export function save(key: string, data: any) {
     localStorage.setItem(key, JSON.stringify(data));
 }
 
-export function get(id: IWidget['id'], type: IWidget['type']): any {
-    const key = getStorageKey(id, type);
+export function get(key: string): any {
     const json = localStorage.getItem(key);
-    if (!json) return [];
+    if (!json) return null;
 
     try {
         const parsed = JSON.parse(json);
@@ -20,4 +24,8 @@ export function get(id: IWidget['id'], type: IWidget['type']): any {
     } catch (error) {
         return null;
     }
+}
+
+function getWidgetStorageKey(id: IWidget['id'], type: IWidget['type']) {
+    return `w-${type}-${id}`;
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getCurrentDateFormatted } from "../../../utils/date";
 import { IClockOptions, IClockWidget } from "./clock.types";
 import { CLOCK_REFRESH_INTERVAL } from "./clock.config";
+import WidgetContainer from "../../common/WidgetContainer";
 
 interface ClockProps {
     id: IClockWidget['id'];
@@ -21,8 +22,8 @@ export default function Clock({ options }: ClockProps) {
     }, []);
 
     return (
-        <div className="text-lg font-mono text-white tracking-widest">
+        <WidgetContainer className="text-lg text-center font-mono text-white tracking-widest">
             {date}
-        </div>
+        </WidgetContainer>
     )
 }

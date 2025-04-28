@@ -1,4 +1,5 @@
 import { IWidgetLayoutConfig } from "../widget.type";
+import { INotepadWidget } from "./notepad.types";
 
 export const NOTEPAD_LAYOUT_CONFIG: IWidgetLayoutConfig = {
     minH: 3,
@@ -7,3 +8,4 @@ export const NOTEPAD_LAYOUT_CONFIG: IWidgetLayoutConfig = {
     maxW: 4,
 } as const;
 
+export const NOTEPAD_DEFAULT_OPTIONS: INotepadWidget['options'] = { title: '📝 Notes'};

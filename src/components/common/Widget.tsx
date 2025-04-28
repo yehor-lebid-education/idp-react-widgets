@@ -1,3 +1,4 @@
+import classname from "../../utils/classname";
 import Clock from "../widgets/clock/Clock";
 import Counter from "../widgets/counter/Counter";
 import Link from "../widgets/link/Link";
@@ -10,9 +11,10 @@ import { IWidget } from "../widgets/widget.type";
 
 interface WidgetProps {
     widget: IWidget;
+    editMode?: boolean;
 }
 
-export default function Widget({ widget }: WidgetProps) {
+export default function Widget({ editMode, widget }: WidgetProps) {
     function renderWidget() {
         switch (widget.type) {
             case 'clock':
@@ -36,9 +38,14 @@ export default function Widget({ widget }: WidgetProps) {
     }
 
     const widgetComponent = renderWidget();
+    const center = !['todo'].includes(widget.type);
 
     return (
-        <div className="w-full h-full flex items-center justify-center overflow-hidden">
+        <div className={classname(
+            "w-full h-full flex overflow-scroll",
+            center ? "items-center justify-center" : "items-end justify-center",
+            editMode && "pointer-events-none opacity-40",
+        )}>
             {widgetComponent}
         </div>
     );

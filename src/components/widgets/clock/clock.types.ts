@@ -1,6 +1,6 @@
-import IWidgetCommon from "../widget-common.type";
+import { IWidgetCommonOptions, IWidgetCommon } from "../widget-common.type";
 
-export type IClockOptions = {
+export type IClockOptions = IWidgetCommonOptions & {
     dateFormat: string;
 };
 

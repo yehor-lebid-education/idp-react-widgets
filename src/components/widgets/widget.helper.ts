@@ -2,7 +2,7 @@ import { IClockWidget } from "./clock/clock.types";
 import { ICounterWidget } from "./counter/counter.types";
 import { ILinkWidget } from "./link/link.types";
 import { INotepadWidget } from "./notepad/notepad.types";
-import { IPictureWidget } from "./picture/picture.model";
+import { IPictureWidget } from "./picture/picture.types";
 import { IQuoteWidget } from "./quote/quote.types";
 import { ITodoWidget } from "./todo/todo.types";
 

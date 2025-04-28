@@ -9,3 +9,4 @@ export const TODO_LAYOUT_CONFIG: IWidgetLayoutConfig = {
 
 export const TODO_DELETE_ICON_SIZE = 20;
 export const TODO_ADD_ICON_SIZE = 20;
+export const TODO_DEFAULT_OPTIONS = {};

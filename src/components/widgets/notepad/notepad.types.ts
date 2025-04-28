@@ -1,6 +1,6 @@
-import IWidgetCommon from "../widget-common.type";
+import { IWidgetCommon, IWidgetCommonOptions } from "../widget-common.type";
 
-export type INotepadOptions = {
+export type INotepadOptions = IWidgetCommonOptions & {
     title: string;
 };
 

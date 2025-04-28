@@ -11,6 +11,6 @@ export const COUNTER_LAYOUT_CONFIG: IWidgetLayoutConfig = {
     maxW: 2,
 } as const;
 
-export const COUNTER_DEFAULT_LAYOUT: ICounterWidget['options'] = { step: 1, total: 10 }
+export const COUNTER_DEFAULT_LAYOUT: ICounterWidget['layout'] = { x: 0, y: 0, w: 2, h: 1 };
 
 export const COUNTER_DEFAULT_OPTIONS: ICounterWidget['options'] = { step: 1, total: 10 }

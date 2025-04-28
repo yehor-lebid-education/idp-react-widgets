@@ -4,7 +4,7 @@ import { INotepadWidget } from "./notepad/notepad.types";
 import { IQuoteWidget } from "./quote/quote.types";
 import { ILinkWidget } from "./link/link.types";
 import { ICounterWidget } from "./counter/counter.types";
-import { IPictureWidget } from "./picture/picture.model";
+import { IPictureWidget } from "./picture/picture.types";
 
 export type IWidget =
     | IClockWidget
@@ -16,5 +16,5 @@ export type IWidget =
     | IPictureWidget;
 
 export type IWidgetType = IWidget['type'];
-export type IWidgetLayoutConfig = Pick<IWidget['layout'], 'minH' | 'minW' | 'maxH' | 'maxW'>;
+export type IWidgetLayoutConfig = Partial<Pick<IWidget['layout'], 'minH' | 'minW' | 'maxH' | 'maxW'>>;
 export type IWidgetLayoutChange = Pick<IWidget['layout'], 'x' | 'y' | 'w' | 'h'>;

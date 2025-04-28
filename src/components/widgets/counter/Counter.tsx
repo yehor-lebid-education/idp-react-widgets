@@ -11,8 +11,21 @@ interface CounterProps {
 }
 
 export default function Counter({ id, options }: CounterProps) {
+    if (options?.mode === 'preview') {
+        return <CounterPreviewWidget />
+    }
+
+    return <CounterWidget id={id} options={options} />
+}
+
+/**
+ * A Main Counter Widget used on grid.
+ */
+function CounterWidget({ id, options }: CounterProps) {
     const { step, total } = options;
-    const [counter, setCounter] = useState<number>(Number(storage.getWidget(id, 'counter')) || 0);
+    const [counter, setCounter] = useState<number>(() => {
+        return Number(storage.getWidget(id, 'counter')) || 0
+    });
 
     useEffect(() => {
         storage.saveWidget(id, 'counter', counter);
@@ -43,36 +56,76 @@ export default function Counter({ id, options }: CounterProps) {
     )
 }
 
+/**
+ * A Preview Counter Widget (Used on widget add modal)
+ * @returns 
+ */
+function CounterPreviewWidget() {
+    return (
+        <WidgetContainer className="text-center">
+            <div className="flex items-center justify-center">
+                <div className="text-sm tracking-wide pr-4">Track:</div>
+                <div className="cursor-pointer p-2 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition">
+                    <Minus size={12} />
+                </div>
+                <span className="px-1 font-bold text-sm strong">5/10</span>
+                <div className="cursor-pointer p-2 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition">
+                    <Plus size={12} />
+                </div>
+                <div className="ml-6 cursor-pointer p-2 border border-white/20 rounded-full bg-white/10 transition">
+                    <RotateCcw size={12} />
+                </div>
+            </div>
+        </WidgetContainer>
+    )
+}
+
 interface CommonButtonProps {
-    onClick: Function;
+    onClick?: Function;
+    size?: number;
 }
+function DecrementButton({ onClick, size }: CommonButtonProps) {
+    const handleClick = () => {
+        if (typeof onClick === 'function') {
+            onClick();
+        }
+    };
 
-function DecrementButton({ onClick }: CommonButtonProps) {
     return (
         <button
             className="cursor-pointer p-2 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition"
-            onClick={() => onClick()}
+            onClick={handleClick}
         >
-            <Minus size={COUNTER_BUTTONS_SIZE} />
+            <Minus size={size || COUNTER_BUTTONS_SIZE} />
         </button>
     )
 }
 
-function IncrementButton({ onClick }: CommonButtonProps) {
+function IncrementButton({ onClick, size }: CommonButtonProps) {
+    const handleClick = () => {
+        if (typeof onClick === 'function') {
+            onClick();
+        }
+    };
+
     return (
         <button
             className="cursor-pointer p-2 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition"
-            onClick={() => onClick()}
+            onClick={handleClick}
         >
-            <Plus size={COUNTER_BUTTONS_SIZE} />
+            <Plus size={size || COUNTER_BUTTONS_SIZE} />
         </button>
     )
 }
 
-function ResetButton({ onClick }: CommonButtonProps) {
+function ResetButton({ onClick, size }: CommonButtonProps) {
     const [confirm, setConfirm] = useState(false);
 
     function handleClick() {
+        if (typeof onClick !== 'function') {
+            return;
+        }
+
         if (!confirm) {
             return setConfirm(true);
         }
@@ -88,7 +141,7 @@ function ResetButton({ onClick }: CommonButtonProps) {
             className={`ml-6 cursor-pointer p-2 border border-white/20 rounded-full ${bgColor} transition`}
             onClick={handleClick}
         >
-            <RotateCcw size={COUNTER_BUTTONS_SIZE} />
+            <RotateCcw size={size || COUNTER_BUTTONS_SIZE} />
         </button>
     )
 }

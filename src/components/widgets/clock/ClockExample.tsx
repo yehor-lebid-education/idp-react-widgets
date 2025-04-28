@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getCurrentDateFormatted } from "../../../utils/date";
-import { IClockOptions, IClockWidget } from "./clock.types";
 import { CLOCK_DEFAULT_OPTIONS, CLOCK_REFRESH_INTERVAL } from "./clock.config";
 
 export default function ClockExample() {

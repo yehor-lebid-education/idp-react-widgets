@@ -20,7 +20,7 @@ export default function Widget({ editMode, widget }: WidgetProps) {
             case 'clock':
                 return <Clock id={widget.id} options={widget.options} />
             case 'todo':
-                return <Todo id={widget.id} />
+                return <Todo id={widget.id} options={widget.options} />
             case 'notepad':
                 return <Notepad id={widget.id} options={widget.options} />
             case 'quote':

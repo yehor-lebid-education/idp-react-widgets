@@ -4,15 +4,9 @@ import { IWidget } from "../widgets/widget.type";
 import Widget from "./Widget";
 
 
-const availableWidgets: IWidget[] = [
-    widgetData.getClockWidget(),
-    widgetData.getLinkWidget(),
-    widgetData.getCounterWidget(),
-
-    widgetData.getClockWidget(),
-    widgetData.getLinkWidget(),
-    widgetData.getCounterWidget(),
-];
+const availableWidgets: IWidget[] = widgetData.getWidgetsData({
+    mode: 'preview',
+});
 
 interface WidgetSelectorProps {
     onClose: () => void;

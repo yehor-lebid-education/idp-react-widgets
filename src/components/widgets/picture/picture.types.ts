@@ -1,6 +1,6 @@
-import IWidgetCommon from "../widget-common.type";
+import { IWidgetCommon, IWidgetCommonOptions } from "../widget-common.type";
 
-export interface IPictureOptions {
+export type IPictureOptions = IWidgetCommonOptions & {
     url: string;
     title?: string;
 }

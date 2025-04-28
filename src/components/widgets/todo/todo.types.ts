@@ -1,6 +1,6 @@
-import IWidgetCommon from "../widget-common.type";
+import { IWidgetCommon, IWidgetCommonOptions } from "../widget-common.type";
 
-export interface ITodoWidgetOptions {
+export type ITodoWidgetOptions = IWidgetCommonOptions & {
     title?: string;
 }
 

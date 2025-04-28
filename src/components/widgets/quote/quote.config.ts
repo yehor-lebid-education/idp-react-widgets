@@ -8,3 +8,5 @@ export const QUOTE_LAYOUT_CONFIG: IWidgetLayoutConfig = {
 } as const;
 
 export const QUOTE_REFRESH_DURATION = 1000 * 60 * 5; // 5 minutes
+
+export const QUOTE_DEFAULT_OPTIONS = { refreshDuration: 1000 * 60 * 10 } as const;

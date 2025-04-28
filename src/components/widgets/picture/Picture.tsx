@@ -1,10 +1,18 @@
-import { IPictureOptions } from "./picture.model";
+import { IPictureOptions } from "./picture.types";
 
 interface PictureProps {
     options: IPictureOptions;
 }
 
 export default function Picture({ options }: PictureProps) {
+    if (options.mode === 'preview') {
+        return <PicturePreviewWidget />;
+    }
+
+    return <PictureWidget options={options} />;
+}
+
+function PictureWidget({ options }: PictureProps) {
     const { url, title } = options;
 
     return (
@@ -20,6 +28,22 @@ export default function Picture({ options }: PictureProps) {
         </div>
     );
 };
+
+function PicturePreviewWidget() {
+    const url = "https://picsum.photos/240/90";
+
+    return (
+        <div className="w-full h-full p-2 text-white">
+            <div className="w-full h-full rounded-sm overflow-hidden">
+                <img
+                    src={url}
+                    alt="Preview"
+                    className="w-full object-cover"
+                />
+            </div>
+        </div>
+    );
+}
 
 function PictureTitle({ title }: { title: string }) {
     return (

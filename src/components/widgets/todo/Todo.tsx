@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Check, Plus, Trash2 } from "lucide-react";
 import generateId from "../../../utils/generate-id";
 import * as storage from "../../../utils/storage.helper";
 import { ITodo, ITodoWidget } from "./todo.types";
@@ -7,9 +7,18 @@ import { TODO_ADD_ICON_SIZE, TODO_DELETE_ICON_SIZE } from "./todo.config";
 
 interface TodoProps {
     id: ITodoWidget['id'];
+    options: ITodoWidget['options'];
 }
 
-export default function Todo({ id }: TodoProps) {
+export default function Todo({ id, options }: TodoProps) {
+    if (options.mode === 'preview') {
+        return <TodoPreviewWidget />;
+    }
+
+    return <TodoWidget id={id} options={options} />;
+}
+
+function TodoWidget({ id }: TodoProps) {
     const [todos, setTodos] = useState<ITodo[]>(storage.getWidget(id, 'todo') || []);
 
     useEffect(() => {
@@ -44,6 +53,24 @@ export default function Todo({ id }: TodoProps) {
             ))}
             <TodoItemAdd onAdd={handleAdd} />
         </ul>
+    );
+}
+
+function TodoPreviewWidget() {
+    return (
+        <div className="w-full h-full p-1 px-4">
+            <div className="font-bold underline">Todo:</div>
+            <ul className="w-full h-full p-x-4">
+            <li className="flex items-center space-x-3">
+                <Check />
+                <span className="ml-1 text-white text-sm font-mono">Discover widgets</span>
+            </li>
+            <li className="flex items-center space-x-3">
+                <Check />
+                <span className="ml-1 text-white text-sm font-mono">Setup dashboard</span>
+            </li>
+        </ul>
+        </div>
     );
 }
 

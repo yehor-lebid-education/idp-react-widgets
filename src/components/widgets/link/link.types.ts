@@ -1,6 +1,6 @@
-import IWidgetCommon from "../widget-common.type";
+import { IWidgetCommon, IWidgetCommonOptions } from "../widget-common.type";
 
-export type ILinkOptions = {
+export type ILinkOptions = IWidgetCommonOptions & {
     url: string;
     label: string;
 };

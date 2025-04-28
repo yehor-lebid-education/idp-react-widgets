@@ -9,6 +9,14 @@ interface QuoteProps {
 }
 
 export default function Quote({ options }: QuoteProps) {
+    if (options.mode === 'preview') {
+        return <QuotePreviewWidget />;
+    }
+
+    return <QuoteWidget options={options} />;
+}
+
+function QuoteWidget({ options }: QuoteProps) {
     const [quote, setQuote] = useState<IQuote>(getRandomQuote());
 
     useEffect(() => {
@@ -23,6 +31,22 @@ export default function Quote({ options }: QuoteProps) {
         <div className="flex justify-around items-center h-full w-full">
             <QuoteText text={quote.text} />
             <QuoteAuthor author={quote.author} />
+        </div>
+    );
+}
+
+function QuotePreviewWidget() {
+    const text = "Make it work, make it right, make it fast.";
+    const author = "Kent Beck";
+
+    return (
+        <div className="flex flex-col justify-center items-center h-full w-full">
+            <blockquote className="text-white font-mono italic text-sm pb-1">
+                “{text}”
+            </blockquote>
+            <div className="text-white/60 font-mono text-right text-sm pt-1">
+                — {author}
+            </div>
         </div>
     );
 }

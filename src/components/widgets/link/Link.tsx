@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Globe } from "lucide-react";
 import { ILinkOptions } from "./link.types";
 import { getFaviconUrl } from "./link.helper";
-import { LINK_ICON_SIZE } from "./link.config";
+import { LINK_DEFAULT_OPTIONS, LINK_ICON_SIZE } from "./link.config";
 import WidgetContainer from "../../common/WidgetContainer";
 
 interface LinkProps {
@@ -10,6 +10,14 @@ interface LinkProps {
 }
 
 export default function Link({ options }: LinkProps) {
+    if (options?.mode === 'preview') {
+        return <LinkPreviewWidget />
+    }
+
+    return <LinkWidget options={options} />
+}
+
+function LinkWidget({ options }: LinkProps) {
     const { url, label } = options;
 
     return (
@@ -27,6 +35,20 @@ export default function Link({ options }: LinkProps) {
     )
 }
 
+function LinkPreviewWidget() {
+    const { url, label } = LINK_DEFAULT_OPTIONS;
+
+    return (
+        <WidgetContainer>
+            <span
+                className="flex items-center gap-2 font-medium hover:underline"
+            >
+                <Favicon url={url} />
+                <span>{label}</span>
+            </span>
+        </WidgetContainer>
+    )
+}
 interface FaviconProps {
     url: string;
 }

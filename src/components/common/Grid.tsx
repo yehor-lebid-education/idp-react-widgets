@@ -17,10 +17,11 @@ interface GridWidgetProps {
     // Handle both size change and movement
     onWidgetLayoutChange?: (id: IWidget['id'], newLayout: IWidgetLayoutChange) => void;
     onWidgetDelete?: (id: IWidget['id']) => void;
+    onWidgetAdd?: (widget: IWidget) => void;
 }
-export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDelete }: GridWidgetProps) {
-    const [editMode, setEditMode] = useState(true);
-    const [addMode, setAddMode] = useState(true);
+export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDelete, onWidgetAdd }: GridWidgetProps) {
+    const [editMode, setEditMode] = useState(false);
+    const [addMode, setAddMode] = useState(false);
 
     function handleLayoutChange(_layout: Layout[], _oldLayout: Layout, newLayout: Layout) {
         if (typeof onWidgetLayoutChange !== 'function') {
@@ -44,7 +45,11 @@ export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDele
     }
 
     function handleAddWidget(widget: IWidget) {
+        if (typeof onWidgetAdd !== 'function') {
+            return;
+        }
 
+        onWidgetAdd(widget);
     }
 
     function handleDeleteWidget(id: IWidget['id']) {
@@ -94,6 +99,7 @@ export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDele
 
             {addMode && (
                 <WidgetSelector
+                    widgets={widgets}
                     onClose={() => setAddMode(false)}
                     onAdd={(widget: IWidget) => handleAddWidget(widget)}
                 />)

@@ -4,6 +4,5 @@ export interface IWidgetCommon {
 }
 
 export interface IWidgetCommonOptions {
-    size?: 'small' | 'default';
-    mode?: 'preview';
+    mode?: 'preview' | 'default';
 }

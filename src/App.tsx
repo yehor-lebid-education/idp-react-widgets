@@ -14,9 +14,14 @@ export default function App() {
         dispatch({ type: 'WIDGET_UPDATE_LAYOUT', payload: { id, layout } });
     }
 
+    function handleWidgetAdd(widget: IWidget) {
+        dispatch({ type: 'WIDGET_ADD', payload: { widget } });
+    }
+
     return (
         <GridWidget
             widgets={state.widgets}
+            onWidgetAdd={handleWidgetAdd}
             onWidgetDelete={handleWidgetDelete}
             onWidgetLayoutChange={handleWidgetLayoutChange}
         />

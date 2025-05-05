@@ -24,11 +24,12 @@ export default function Counter({ id, options }: CounterProps) {
 function CounterWidget({ id, options }: CounterProps) {
     const { step, total } = options;
     const [counter, setCounter] = useState<number>(() => {
-        return Number(storage.getWidget(id, 'counter')) || 0
+        const value = storage.get(id);
+        return typeof value === 'number' && !isNaN(value) ? value : 0;
     });
 
     useEffect(() => {
-        storage.saveWidget(id, 'counter', counter);
+        storage.save(id, counter);
     }, [counter]);
 
     function increment() {

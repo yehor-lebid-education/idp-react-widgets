@@ -19,10 +19,13 @@ export default function Todo({ id, options }: TodoProps) {
 }
 
 function TodoWidget({ id }: TodoProps) {
-    const [todos, setTodos] = useState<ITodo[]>(storage.getWidget(id, 'todo') || []);
+    const [todos, setTodos] = useState<ITodo[]>(() => {
+        const value = storage.get(id);
+        return Array.isArray(value) ? value : [];
+    });
 
     useEffect(() => {
-        storage.saveWidget(id, 'todo', todos);
+        storage.save(id, todos);
     }, [todos]);
 
     function handleToggleIsDone(id: ITodo['id']) {

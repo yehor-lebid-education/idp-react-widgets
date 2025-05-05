@@ -1,4 +1,4 @@
-type ClassName = undefined | null | false | string | string[] | Record<string, boolean>;
+export type ClassName = undefined | null | false | string | string[] | Record<string, boolean>;
 
 export default function classname(...params: ClassName[]): string {
     return params

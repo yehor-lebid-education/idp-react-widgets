@@ -5,12 +5,13 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
 import Widget from './Widget';
-import { Edit3, Eye, Minus, Plus } from 'lucide-react';
+import { ArrowRight, Edit3, Eye, Plus, Trash2 } from 'lucide-react';
 import classname from '../../utils/classname';
 import { IWidget, IWidgetLayoutChange } from '../widgets/widget.type';
 import { GRID, NON_DRAGGABLE_CLASS } from '../../constants';
 import { hasLayoutChange } from '../widgets/widget.helper';
 import WidgetSelector from './WidgetSelector';
+import { TileButton } from './buttons/TileButton';
 
 interface GridWidgetProps {
     widgets: IWidget[];
@@ -18,8 +19,9 @@ interface GridWidgetProps {
     onWidgetLayoutChange?: (id: IWidget['id'], newLayout: IWidgetLayoutChange) => void;
     onWidgetDelete?: (id: IWidget['id']) => void;
     onWidgetAdd?: (widget: IWidget) => void;
+    onDeleteAll?: () => void;
 }
-export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDelete, onWidgetAdd }: GridWidgetProps) {
+export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDelete, onWidgetAdd, onDeleteAll }: GridWidgetProps) {
     const [editMode, setEditMode] = useState(false);
     const [addMode, setAddMode] = useState(false);
 
@@ -60,6 +62,14 @@ export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDele
         onWidgetDelete(id);
     }
 
+    function deleteAll() {
+        if (typeof onDeleteAll !== 'function') {
+            return;
+        }
+
+        onDeleteAll();
+    }
+
     return (
         <div className="w-screen h-screen bg-black">
             <GridLayout
@@ -86,14 +96,25 @@ export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDele
                             editMode && "border-2 animate-[pulse-border_3s_ease-in-out_infinite]"
                         )}
                     >
-                        {editMode && <ButtonDelete onClick={() => handleDeleteWidget(widget.id)} />}
+                        {editMode && <TileButton icon="minus" position="top-left" className={[NON_DRAGGABLE_CLASS, 'hover:bg-red-400']} onClick={() => handleDeleteWidget(widget.id)} />}
                         <Widget editMode={editMode} widget={widget} />
                     </div>
                 ))}
             </GridLayout>
 
+            {!widgets.length && (
+                <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white text-xl flex justify-center items-center">
+                    <div>Click</div>
+                    <div className="flex items-center justify-center px-2 mx-2 h-8 border border-white/40 rounded-2xl bg-white/15"><Edit3 size={20} /></div>
+                    <div>then</div>
+                    <div className="flex items-center justify-center px-2 mx-2 h-8 border border-white/40 rounded-2xl bg-white/15"><Plus size={20} /> Add </div>
+                    <div>to add a new widget</div>
+                </div>
+            )}
+
             <div className="flex flex-col fixed bottom-2 right-2">
                 {editMode && <AddWidgetButton onClick={() => setAddMode(true)} />}
+                {editMode && <DeleteAllButton onClick={() => deleteAll()} />}
                 <EditViewGridButton editMode={editMode} onClick={() => setEditMode(prev => !prev)} />
             </div>
 
@@ -141,22 +162,31 @@ function EditViewGridButton({ editMode, onClick }: EditViewGridButtonProps) {
     );
 }
 
-interface ButtonDeleteProps {
-    onClick?: () => void;
+interface AddWidgetButtonProps {
+    onClick: () => void;
 }
-function ButtonDelete({ onClick }: ButtonDeleteProps) {
+function DeleteAllButton({ onClick }: AddWidgetButtonProps) {
+    const [confirm, setConfirm] = useState(false);
+
     function handleClick() {
-        if (typeof onClick === 'function') {
-            onClick();
+        if (!confirm) {
+            return setConfirm(true);
         }
+
+        setConfirm(false);
+        onClick();
     }
 
     return (
         <button
-            className={`${NON_DRAGGABLE_CLASS} transition rounded-2xl cursor-pointer absolute top-[-8px] left-[-8px] bg-white hover:bg-red-400`}
             onClick={handleClick}
+            title="Delete All"
+            className={classname(
+                "flex items-center gap-2 px-3 py-2 rounded-2xl text-white transition shadow-md cursor-pointer",
+                confirm ? "bg-red-400 hover:bg-red-400" : "bg-transparent hover:bg-white/20"
+            )}
         >
-            <Minus size={24} className="text-black p-0.5" />
+            <Trash2 size={20} /> Delete all
         </button>
     );
 }

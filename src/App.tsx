@@ -18,12 +18,17 @@ export default function App() {
         dispatch({ type: 'WIDGET_ADD', payload: { widget } });
     }
 
+    function handleDeleteAll() {
+        dispatch({ type: 'DELETE_ALL' });
+    }
+
     return (
         <GridWidget
             widgets={state.widgets}
             onWidgetAdd={handleWidgetAdd}
             onWidgetDelete={handleWidgetDelete}
             onWidgetLayoutChange={handleWidgetLayoutChange}
+            onDeleteAll={handleDeleteAll}
         />
     )
 }

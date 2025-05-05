@@ -18,10 +18,13 @@ export default function Notepad({ id, options }: NotepadProps) {
 function NotepadWidget({ id, options }: NotepadProps) {
     const { title } = options;
 
-    const [text, setText] = useState(storage.getWidget(id, 'notepad') || '');
+    const [text, setText] = useState(() => {
+        const value = storage.get(id);
+        return typeof value === 'string' ? value : '';
+    });
 
     useEffect(() => {
-        storage.saveWidget(id, 'notepad', text);
+        storage.save(id, text);
     }, [text]);
 
     return (

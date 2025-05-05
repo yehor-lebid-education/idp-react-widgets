@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { IWidget, IWidgetLayoutChange } from "../components/widgets/widget.type";
 import * as storage from "../utils/storage.helper";
-import { getWidgetsData } from "../spec/widget.data";
 import { applyWidgetOptions } from "../components/widgets/widget.helper";
 
 
@@ -15,16 +14,18 @@ type State = {
 type ActionWidgetAdd = { type: 'WIDGET_ADD'; payload: { widget: IWidget } };
 type ActionWidgetDelete = { type: 'WIDGET_DELETE'; payload: { id: IWidget['id'] } };
 type ActionWidgetUpdateLayout = { type: 'WIDGET_UPDATE_LAYOUT'; payload: { id: IWidget['id'], layout: IWidgetLayoutChange } };
+type ActionDeleteAll = { type: 'DELETE_ALL'; };
 type Action =
     | ActionWidgetAdd
     | ActionWidgetDelete
     | ActionWidgetUpdateLayout
+    | ActionDeleteAll;
 
 
 // CONSTANTS:
 const STORAGE_KEY = 'widgets_state';
 const DEFAULT_STATE: State = {
-    widgets: getWidgetsData(),
+    widgets: [],
 };
 
 
@@ -37,6 +38,8 @@ function reducer(state: State, action: Action): State {
             return handleWidgetDeleteAction(state, action);
         case 'WIDGET_UPDATE_LAYOUT':
             return handleWidgetUpdateLayoutAction(state, action);
+        case 'DELETE_ALL':
+            return handleDeleteAllAction(state, action);
         default:
             throw new Error(`Unknown action type: ${action['type']}`);
     }
@@ -77,7 +80,8 @@ export function useWidgetContext() {
 
 // TOOLS:
 function getInitialState(): State {
-    const initialState: State = storage.get(STORAGE_KEY) || DEFAULT_STATE;
+    const value = storage.get(STORAGE_KEY);
+    const initialState: State = value && typeof value === 'object' ? value : DEFAULT_STATE;
 
     // On load apply changes to widgets from configs
     initialState.widgets = applyWidgetOptions(initialState.widgets);
@@ -92,6 +96,10 @@ function handleWidgetAddAction(state: State, { payload }: ActionWidgetAdd): Stat
 
 function handleWidgetDeleteAction(state: State, { payload }: ActionWidgetDelete): State {
     const newWidgets = state.widgets.filter(widget => widget.id !== payload.id);
+
+    // TODO: Maybe move to other place, since reducer should not have side effects:
+    storage.remove(payload.id);
+
     return { ...state, widgets: newWidgets };
 }
 
@@ -106,4 +114,10 @@ function handleWidgetUpdateLayoutAction(state: State, { payload }: ActionWidgetU
         return widget;
     });
     return { ...state, widgets: newWidgets };
+}
+
+function handleDeleteAllAction(state: State, action: ActionDeleteAll) {
+    // TODO: Maybe move to other place, since reducer should not have side effects:
+    state.widgets.forEach(({ id }) => storage.remove(id));
+    return DEFAULT_STATE;
 }

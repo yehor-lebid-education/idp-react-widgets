@@ -1,6 +1,6 @@
 import GridWidget from './components/common/Grid';
+import { useWidgetContext } from './context/widget-context/reducer';
 import { IWidget, IWidgetLayoutChange } from './components/widgets/widget.type';
-import { useWidgetContext } from './context/WidgetContext';
 
 
 export default function App() {

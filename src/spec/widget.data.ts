@@ -84,6 +84,6 @@ export function getQuoteWidget(options?: Partial<IQuoteWidget['options']>): IQuo
     });
 }
 
-function isObject<T>(value: any): value is T {
+function isObject<T>(value: unknown): value is T {
     return typeof value === 'object' && value !== null;
 }

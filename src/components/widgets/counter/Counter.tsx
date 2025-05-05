@@ -30,7 +30,7 @@ function CounterWidget({ id, options }: CounterProps) {
 
     useEffect(() => {
         storage.save(id, counter);
-    }, [counter]);
+    }, [id, counter]);
 
     function increment() {
         setCounter(prevCounter => prevCounter + step >= total ? total : prevCounter + step);
@@ -82,7 +82,7 @@ function CounterPreviewWidget() {
 }
 
 interface CommonButtonProps {
-    onClick?: Function;
+    onClick?: () => void;
     size?: number;
 }
 function DecrementButton({ onClick, size }: CommonButtonProps) {

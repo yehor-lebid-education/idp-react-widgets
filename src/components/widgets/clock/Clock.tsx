@@ -27,7 +27,7 @@ function ClockWidget({ options }: ClockProps) {
         }, CLOCK_REFRESH_INTERVAL);
 
         return () => clearInterval(intervalId);
-    }, []);
+    }, [dateFormat]);
 
     return (
         <WidgetContainer className="text-lg text-center font-mono text-white tracking-widest">
@@ -46,7 +46,7 @@ function ClockPreviewWidget() {
         }, CLOCK_REFRESH_INTERVAL);
 
         return () => clearInterval(intervalId);
-    }, []);
+    }, [dateFormat]);
 
     return (
         <WidgetContainer className="text-sm text-center font-mono text-white tracking-widest">

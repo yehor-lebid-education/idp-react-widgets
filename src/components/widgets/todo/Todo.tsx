@@ -26,7 +26,7 @@ function TodoWidget({ id }: TodoProps) {
 
     useEffect(() => {
         storage.save(id, todos);
-    }, [todos]);
+    }, [id, todos]);
 
     function handleToggleIsDone(id: ITodo['id']) {
         setTodos(prevTodos => prevTodos.map(todo => ({

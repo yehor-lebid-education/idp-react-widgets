@@ -32,7 +32,7 @@ export default function Widget({ editMode, widget }: WidgetProps) {
             case 'picture':
                 return <Picture options={widget.options} />
             default:
-                // @ts-expect-error
+                // @ts-expect-error Ignore error, since TS think that here widget.type is never. But if new widget is added we have to throw error
                 throw new Error(`Unknown widget type: ${widget.type}`);
         }
     }

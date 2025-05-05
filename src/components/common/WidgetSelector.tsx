@@ -17,14 +17,14 @@ export default function WidgetSelector({ widgets, onClose, onAdd }: WidgetSelect
     const [availableSpotMap, setAvailableSpotMap] = useState<Map<IWidget['type'], IWidget['layout'] | null>>(new Map());
 
     useEffect(() => {
+        function createAvailableSpotMap() {
+            const spotMap = new Map<IWidget['type'], IWidget['layout'] | null>();
+            widgetList.forEach(widget => spotMap.set(widget.type, widgetHelper.findFreeSpot(widgets, widget.layout)))
+            setAvailableSpotMap(spotMap);
+        }
+
         createAvailableSpotMap();
     }, [widgets]);
-
-    function createAvailableSpotMap() {
-        const spotMap = new Map<IWidget['type'], IWidget['layout'] | null>();
-        widgetList.forEach(widget => spotMap.set(widget.type, widgetHelper.findFreeSpot(widgets, widget.layout)))
-        setAvailableSpotMap(spotMap);
-    }
 
     function hasSpotForItem(widget: IWidget) {
         const spot = availableSpotMap.get(widget.type);

@@ -16,9 +16,9 @@ export default function classname(...params: ClassName[]): string {
                 return param.join(' ');
             }
             if (param && typeof param === 'object') {
-                return Object.entries(param)
-                    .filter(([_, value]) => value)
-                    .map(([key]) => key)
+                return Object.entries(param)   // Array<[key, value]>
+                    .filter(entry => entry[1])
+                    .map(entry => entry[0])
                     .join(' ');
             }
             return param;
@@ -26,8 +26,3 @@ export default function classname(...params: ClassName[]): string {
         .join(' ')
         .trim();
 }
-
-classname(
-    "bg-white/10 border border-white/20 rounded-2xl backdrop-blur-md shadow-lg flex items-center justify-center text-white font-mono overflow-hidden",
-    true && "border-2 animate-[pulse-border_3s_ease-in-out_infinite]"
-)

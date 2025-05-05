@@ -25,7 +25,7 @@ function NotepadWidget({ id, options }: NotepadProps) {
 
     useEffect(() => {
         storage.save(id, text);
-    }, [text]);
+    }, [id, text]);
 
     return (
         <div>

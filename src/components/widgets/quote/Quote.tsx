@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IQuote } from "./quote.data";
 import { getRandomQuote } from "./quote.helper";
 import { IQuoteOptions } from "./quote.types";
@@ -17,15 +17,21 @@ export default function Quote({ options }: QuoteProps) {
 }
 
 function QuoteWidget({ options }: QuoteProps) {
+    const { current } = useRef<{ intervalId: number|undefined }>({ intervalId: undefined });
     const [quote, setQuote] = useState<IQuote>(getRandomQuote());
 
     useEffect(() => {
-        const intervalId = setInterval(
+        if (current.intervalId) {
+            clearInterval(current.intervalId);
+        }
+
+        current.intervalId = setInterval(
             () => setQuote(getRandomQuote()),
             options.refreshDuration || QUOTE_REFRESH_DURATION
         );
-        return () => clearInterval(intervalId);
-    }, []);
+
+        return () => clearInterval(current.intervalId);
+    }, [current, options.refreshDuration]);
 
     return (
         <div className="flex justify-around items-center h-full w-full">

@@ -7,12 +7,8 @@ interface WidgetContainerProps {
 
 export default function WidgetContainer({ children, className }: WidgetContainerProps) {
     return (
-        <div className={classname(
-            "w-full h-full flex items-center justify-center",
-            typeof className === 'string' ? className : '',
-        )}>
+        <div className={classname("w-full h-full flex items-center justify-center", typeof className === 'string' && className)}>
             {children}
         </div>
     );
-
 }

@@ -41,11 +41,13 @@ export default function Widget({ editMode, widget }: WidgetProps) {
     const center = !['todo'].includes(widget.type);
 
     return (
-        <div className={classname(
-            "w-full h-full flex overflow-scroll",
-            center ? "items-center justify-center" : "items-end justify-center",
-            editMode && "pointer-events-none opacity-40",
-        )}>
+        <div
+            className={classname(
+                "w-full h-full flex overflow-scroll",
+                center ? "items-center justify-center" : "items-end justify-center",
+                editMode && "pointer-events-none opacity-40",
+            )}
+        >
             {widgetComponent}
         </div>
     );

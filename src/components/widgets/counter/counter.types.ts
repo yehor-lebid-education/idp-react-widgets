@@ -1,6 +1,7 @@
 import { IWidgetCommon, IWidgetCommonOptions } from "../widget-common.type";
 
 export type ICounterConfig = {
+    label: string;
     total: number;
     step: number;
 }

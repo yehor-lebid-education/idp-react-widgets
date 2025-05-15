@@ -4,6 +4,7 @@ import generateId from "../../../utils/generate-id";
 import * as storage from "../../../utils/storage.helper";
 import { ITodo, ITodoWidget } from "./todo.types";
 import { TODO_ADD_ICON_SIZE, TODO_DELETE_ICON_SIZE } from "./todo.config";
+import Text from "../../common/ui/Text";
 
 interface TodoProps {
     id: ITodoWidget['id'];
@@ -18,7 +19,7 @@ export default function Todo({ id, options }: TodoProps) {
     return <TodoWidget id={id} options={options} />;
 }
 
-function TodoWidget({ id }: TodoProps) {
+function TodoWidget({ id, options }: TodoProps) {
     const [todos, setTodos] = useState<ITodo[]>(() => {
         const value = storage.get(id);
         return Array.isArray(value) ? value : [];
@@ -44,18 +45,21 @@ function TodoWidget({ id }: TodoProps) {
     }
 
     return (
-        <ul className="space-y-4 p-4">
-            {todos.map(todo => (
-                <li key={todo.id}>
-                    <TodoItem
-                        todo={todo}
-                        onDelete={handleDelete}
-                        onToggleDone={handleToggleIsDone}
-                    />
-                </li>
-            ))}
-            <TodoItemAdd onAdd={handleAdd} />
-        </ul>
+        <div className="w-full h-full pt-4 flex flex-col justify-between items-center">
+            {options.title && <h2 className="text-white font-mono text-xl mb-3">{options.title}</h2>}
+            <ul className="space-y-4 p-4">
+                {todos.map(todo => (
+                    <li key={todo.id}>
+                        <TodoItem
+                            todo={todo}
+                            onDelete={handleDelete}
+                            onToggleDone={handleToggleIsDone}
+                        />
+                    </li>
+                ))}
+                <TodoItemAdd onAdd={handleAdd} />
+            </ul>
+        </div>
     );
 }
 
@@ -64,15 +68,15 @@ function TodoPreviewWidget() {
         <div className="w-full h-full p-1 px-4">
             <div className="font-bold underline">Todo:</div>
             <ul className="w-full h-full p-x-4">
-            <li className="flex items-center space-x-3">
-                <Check />
-                <span className="ml-1 text-white text-sm font-mono">Discover widgets</span>
-            </li>
-            <li className="flex items-center space-x-3">
-                <Check />
-                <span className="ml-1 text-white text-sm font-mono">Setup dashboard</span>
-            </li>
-        </ul>
+                <li className="flex items-center space-x-3">
+                    <Check />
+                    <span className="ml-1 text-white text-sm font-mono">Discover widgets</span>
+                </li>
+                <li className="flex items-center space-x-3">
+                    <Check />
+                    <span className="ml-1 text-white text-sm font-mono">Setup dashboard</span>
+                </li>
+            </ul>
         </div>
     );
 }

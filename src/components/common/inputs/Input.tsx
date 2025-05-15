@@ -10,7 +10,7 @@ type InputProps<T extends number | string> = {
     name: string;
     onChange?: (v: T) => void;
 
-    width?: 50 | 100 | 150;
+    width?: 50 | 100 | 150 | 180 | 200;
     label?: string;
     readonly?: boolean;
     placeholder?: string;
@@ -28,13 +28,21 @@ type TextInputProps = InputProps<string> & {
     maxLength?: number;
 }
 
-export default function Input(props: NumberInputProps | TextInputProps) {
+type UrlInputProps = InputProps<string> & {
+    type: 'url';
+}
+
+export default function Input(props: NumberInputProps | TextInputProps | UrlInputProps) {
     if (props.type === 'number') {
         return <NumberInput {...props} />
     }
 
     if (props.type === 'text') {
         return <TextInput {...props} />
+    }
+
+    if (props.type === 'url') {
+        return <UrlInput {...props} />
     }
 
     // @ts-expect-error (To make sure new types are handled)
@@ -46,17 +54,12 @@ function NumberInput({ value, name, onChange, label, placeholder, readonly, ...p
     const max = props.max || 1_000_000;
     const width = props.width || 50;
 
-    const [inputValue, setInputValue] = useState<number>(Number(value));
-
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         let newValue = Number(e.target.value);
-
-        console.log({ inputValue, newValue });
 
         if (newValue < min) newValue = min;
         if (newValue > max) newValue = max;
 
-        setInputValue(newValue);
         typeof onChange === 'function' && onChange(newValue);
     }
 
@@ -71,7 +74,7 @@ function NumberInput({ value, name, onChange, label, placeholder, readonly, ...p
                 id={name}
                 type="number"
                 name={name}
-                value={inputValue}
+                value={value}
                 placeholder={placeholder}
                 min={min}
                 max={max}
@@ -89,15 +92,12 @@ function TextInput({ value, name, onChange, label, placeholder, readonly, ...pro
     const maxLength = props.maxLength || 100;
     const width = props.width || 50;
 
-    const [inputValue, setInputValue] = useState(value);
-
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         let newValue = String(e.target.value);
 
-        if (newValue.length < minLength) newValue = inputValue.slice(0, minLength);
+        if (newValue.length < minLength) newValue = value.slice(0, minLength);
         if (newValue.length > maxLength) newValue = newValue.slice(0, maxLength);
 
-        setInputValue(newValue);
         typeof onChange === 'function' && onChange(newValue);
     }
 
@@ -112,7 +112,7 @@ function TextInput({ value, name, onChange, label, placeholder, readonly, ...pro
                 id={name}
                 type="text"
                 name={name}
-                value={inputValue}
+                value={value}
                 placeholder={placeholder}
                 className={INPUT_STYLE_CLASS}
                 minLength={minLength || 0}
@@ -123,4 +123,90 @@ function TextInput({ value, name, onChange, label, placeholder, readonly, ...pro
             />
         </>
     );
+}
+
+function UrlInput({ value, name, onChange, label, placeholder, readonly, ...props }: UrlInputProps) {
+    const width = props.width || 50;
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        let newValue = String(e.target.value);
+        typeof onChange === 'function' && onChange(newValue);
+    }
+
+    return (
+        <>
+            {label && (
+                <label htmlFor={name}>
+                    <Text size="sm">{`${label}:`}</Text>
+                </label>
+            )}
+            <input
+                id={name}
+                type="url"
+                name={name}
+                value={value}
+                placeholder={placeholder}
+                className={INPUT_STYLE_CLASS}
+                readOnly={readonly}
+                onChange={handleChange}
+                style={{ width }}
+            />
+        </>
+    );
+}
+
+interface SelectInputProps<T> {
+    name: string;
+    label: string;
+    width?: number;
+
+    value: T;
+    onChange: (value: T) => void;
+    options: { value: T, label: string }[];
+}
+export function SelectInput<T extends string | number>({
+    width,
+    label,
+    name,
+    value,
+    options,
+    onChange,
+}: SelectInputProps<T>) {
+
+    // const [selectValue, setSelectValue]
+
+    function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        let newValue;
+        if (typeof options[0].value === 'number') {
+            newValue = Number(e.target.value);
+        } else {
+            newValue = String(e.target.value);
+        }
+
+        onChange(newValue as T);
+    }
+    
+    return (<>
+        {label && (
+            <label htmlFor={name}>
+                <Text size="sm">{`${label}:`}</Text>
+            </label>
+        )}
+        <select
+            id={name}
+            name={name}
+            value={value}
+            onChange={handleChange}
+            style={{width: width || 200}}
+            className="bg-black/20 backdrop-blur-sm text-white px-3 py-1.5 rounded-lg text-sm focus:outline-none appearance-none"
+        >
+            {options.map(({ value, label }) => (
+                <option
+                    key={value}
+                    value={value}
+                    className="bg-black text-white"
+                >{label}</option>
+            ))}
+        </select>
+    </>)
 }

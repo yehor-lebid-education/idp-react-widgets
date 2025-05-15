@@ -13,15 +13,16 @@ export default function Picture({ options }: PictureProps) {
 }
 
 function PictureWidget({ options }: PictureProps) {
-    const { url, title } = options;
+    const { url, title, width } = options;
 
     return (
-        <div className="overflow-hidden text-white w-50">
+        <div className="overflow-hidden w-[100%] text-white">
             {title && <PictureTitle title={title} />}
-            <div className="p-4">
+            <div className="p-4 w-full h-full flex items-center justify-center">
                 <img
                     src={url}
                     alt={title || 'Image'}
+                    style={{ width }}
                     className="rounded-xl w-full object-cover"
                 />
             </div>

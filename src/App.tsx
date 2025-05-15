@@ -10,6 +10,10 @@ export default function App() {
         dispatch({ type: 'WIDGET_DELETE', payload: { id } });
     }
 
+    function handleWidgetConfigChange(id: IWidget['id'], options: Partial<IWidget['options']>) {
+        dispatch({ type: 'WIDGET_UPDATE_CONFIG', payload: { id, options } });
+    }
+
     function handleWidgetLayoutChange(id: IWidget['id'], layout: IWidgetLayoutChange) {
         dispatch({ type: 'WIDGET_UPDATE_LAYOUT', payload: { id, layout } });
     }
@@ -27,6 +31,7 @@ export default function App() {
             widgets={state.widgets}
             onWidgetAdd={handleWidgetAdd}
             onWidgetDelete={handleWidgetDelete}
+            onWidgetConfigChange={handleWidgetConfigChange}
             onWidgetLayoutChange={handleWidgetLayoutChange}
             onDeleteAll={handleDeleteAll}
         />

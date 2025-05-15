@@ -1,8 +1,10 @@
 import { IWidgetCommon, IWidgetCommonOptions } from "../widget-common.type";
 
-export type ITodoWidgetOptions = IWidgetCommonOptions & {
-    title?: string;
+export type ITodoConfig = {
+    title: string;
 }
+
+export type ITodoWidgetOptions = IWidgetCommonOptions & ITodoConfig;
 
 export interface ITodoWidget extends IWidgetCommon {
     type: 'todo';

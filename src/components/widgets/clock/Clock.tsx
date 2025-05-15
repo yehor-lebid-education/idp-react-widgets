@@ -22,6 +22,8 @@ function ClockWidget({ options }: ClockProps) {
     const [date, setDate] = useState<string>(() => getCurrentDateFormatted(dateFormat || CLOCK_DEFAULT_OPTIONS.dateFormat));
 
     useEffect(() => {
+        setDate(getCurrentDateFormatted(dateFormat));
+
         const intervalId = setInterval(() => {
             setDate(getCurrentDateFormatted(dateFormat));
         }, CLOCK_REFRESH_INTERVAL);

@@ -29,7 +29,7 @@ function NotepadWidget({ id, options }: NotepadProps) {
 
     return (
         <div>
-            <h2 className="text-white font-mono text-xl mb-3">{title || 'Notes:'}</h2>
+            {title && <h2 className="text-white font-mono text-xl mb-3">{title}</h2>}
             <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}

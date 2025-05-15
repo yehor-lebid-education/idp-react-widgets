@@ -13,11 +13,13 @@ export type State = {
 // ACTIONS::
 export type ActionWidgetAdd = { type: 'WIDGET_ADD'; payload: { widget: IWidget } };
 export type ActionWidgetDelete = { type: 'WIDGET_DELETE'; payload: { id: IWidget['id'] } };
+export type ActionWidgetUpdateConfig = { type: 'WIDGET_UPDATE_CONFIG'; payload: { id: IWidget['id'], options: Partial<IWidget['options']> } };
 export type ActionWidgetUpdateLayout = { type: 'WIDGET_UPDATE_LAYOUT'; payload: { id: IWidget['id'], layout: IWidgetLayoutChange } };
 export type ActionDeleteAll = { type: 'DELETE_ALL'; };
 export type Action =
     | ActionWidgetAdd
     | ActionWidgetDelete
+    | ActionWidgetUpdateConfig
     | ActionWidgetUpdateLayout
     | ActionDeleteAll;
 
@@ -35,6 +37,8 @@ export function reducer(state: State, action: Action): State {
             return handleWidgetAddAction(state, action);
         case 'WIDGET_DELETE':
             return handleWidgetDeleteAction(state, action);
+        case 'WIDGET_UPDATE_CONFIG':
+            return handleWidgetUpdateConfigAction(state, action);
         case 'WIDGET_UPDATE_LAYOUT':
             return handleWidgetUpdateLayoutAction(state, action);
         case 'DELETE_ALL':
@@ -70,6 +74,19 @@ function handleWidgetDeleteAction(state: State, { payload }: ActionWidgetDelete)
     // TODO: Maybe move to other place, since reducer should not have side effects:
     storage.remove(payload.id);
 
+    return { ...state, widgets: newWidgets };
+}
+
+function handleWidgetUpdateConfigAction(state: State, { payload }: ActionWidgetUpdateConfig): State {
+    const newWidgets = state.widgets.map(widget => {
+        if (widget.id === payload.id) {
+            return {
+                ...widget,
+                options: { ...widget.options, ...payload.options }
+            };
+        }
+        return widget;
+    }) as IWidget[];
     return { ...state, widgets: newWidgets };
 }
 

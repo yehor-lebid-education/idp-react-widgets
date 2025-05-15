@@ -5,29 +5,51 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
 import Widget from './Widget';
-import { Cross, Edit3, Eye, Plus, Trash2, X } from 'lucide-react';
+import { Edit3, Eye, Plus, Trash2, X } from 'lucide-react';
 import classname from '../../utils/classname';
 import { IWidget, IWidgetLayoutChange } from '../widgets/widget.type';
 import { GRID, NON_DRAGGABLE_CLASS } from '../../constants';
 import { hasLayoutChange } from '../widgets/widget.helper';
 import WidgetSelector from './WidgetSelector';
 import { TileButton } from './buttons/TileButton';
-import Text from './ui/Text';
-import Row from './ui/Row';
-import Input from './inputs/Input';
+import WidgetContextMenu, { CONTEXT_MENU_PADDING, CONTEXT_MENU_WIDTH } from './WidgetContextMenu';
+
+interface IPosition {
+    x: number;
+    y: number;
+}
 
 interface GridWidgetProps {
     widgets: IWidget[];
     // Handle both size change and movement
-    onWidgetLayoutChange?: (id: IWidget['id'], newLayout: IWidgetLayoutChange) => void;
-    onWidgetDelete?: (id: IWidget['id']) => void;
-    onWidgetAdd?: (widget: IWidget) => void;
-    onDeleteAll?: () => void;
+    onWidgetLayoutChange: (id: IWidget['id'], newLayout: IWidgetLayoutChange) => void;
+    onWidgetConfigChange: (id: IWidget['id'], newConfig: Partial<IWidget['options']>) => void
+    onWidgetDelete: (id: IWidget['id']) => void;
+    onWidgetAdd: (widget: IWidget) => void;
+    onDeleteAll: () => void;
 }
-export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDelete, onWidgetAdd, onDeleteAll }: GridWidgetProps) {
+export default function GridWidget({
+    widgets,
+    onWidgetLayoutChange,
+    onWidgetConfigChange,
+    onWidgetDelete,
+    onWidgetAdd,
+    onDeleteAll,
+}: GridWidgetProps) {
     const [editMode, setEditMode] = useState(true);
     const [addMode, setAddMode] = useState(false);
     const [widgetContextMenu, setWidgetContextMenu] = useState<{ widget: IWidget; position: IPosition } | null>(null);
+
+    useEffect(() => {
+        if (!widgetContextMenu) {
+            return;
+        }
+
+        const newWidget = widgets.find(({ id }) => id === widgetContextMenu.widget.id);
+        if (!newWidget) setWidgetContextMenu(null);
+        else setWidgetContextMenu({...widgetContextMenu, widget: newWidget});
+
+    }, [widgets]);
 
     function handleLayoutChange(_layout: Layout[], _oldLayout: Layout, newLayout: Layout) {
         if (typeof onWidgetLayoutChange !== 'function') {
@@ -77,9 +99,11 @@ export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDele
     function handleContextMenu(e: React.MouseEvent<HTMLDivElement, MouseEvent>, widget: IWidget) {
         e.preventDefault();
 
-        console.log({ x: e.pageX, y: e.pageY });
+        const maxX = window.innerWidth - (CONTEXT_MENU_WIDTH + CONTEXT_MENU_PADDING);
+        const x = Math.min(e.pageX, maxX);
+        const y = e.pageY;
 
-        setWidgetContextMenu({ widget, position: { x: e.pageX, y: e.pageY } });
+        setWidgetContextMenu({ widget, position: { x, y } });
     }
 
     return (
@@ -122,7 +146,7 @@ export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDele
                     widget={widgetContextMenu.widget}
                     position={widgetContextMenu.position}
                     onClose={() => setWidgetContextMenu(null)}
-                    onChange={() => setWidgetContextMenu(null)}
+                    onChange={onWidgetConfigChange}
                 />
             )}
 
@@ -150,69 +174,6 @@ export default function GridWidget({ widgets, onWidgetLayoutChange, onWidgetDele
         </div>
     );
 };
-
-interface IPosition {
-    x: number;
-    y: number;
-}
-
-
-interface WidgetContextMenu {
-    widget: IWidget;
-    position: IPosition;
-    onClose: () => void;
-    onChange: (widgetId: IWidget['id'], options: IWidget['options']) => void;
-}
-function WidgetContextMenu({ widget, position, onClose, onChange }: WidgetContextMenu) {
-    const { x, y } = position;
-
-
-    return (
-        <div // Wrapper for click out
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/5"
-        >
-            <div // Context menu
-                className="w-[280px] fixed bg-white/10 border border-white/20 backdrop-blur-lg rounded-2xl py-3 px-5 text-white"
-                style={{ top: y, left: x }}
-            >
-                <div className="w-[100%]">
-                    <Row alignX="between">
-                        <Text size="lg">Widget Settings:</Text>
-                        <button className="flex items-center hover:text-white text-white/50 transition shadow-md cursor-pointer" onClick={() => onClose()}><X size={20} /></button>
-                    </Row>
-                    <Row alignX="between">
-                        <Input
-                            type="number"
-                            name="Number"
-                            value={0}
-                            label="Number"
-                            width={100}
-                        />
-                    </Row>
-                    <Row alignX="between">
-                        <Input
-                            type="text"
-                            name="Text"
-                            value={'test'}
-                            label="Text"
-                            width={100}
-                        />
-                    </Row>
-                    <Row alignY="center" alignX="center">
-                        <button
-                            onClick={onClose}
-                            title="Done"
-                            className="flex items-center w-[100%] px-3 mt-2 py-2 rounded-xl bg-transparent text-white hover:bg-white/20 transition shadow-md cursor-pointer"
-                        >
-                            Done
-                        </button>
-                    </Row>
-                </div>
-            </div>
-        </div>
-    )
-}
-
 
 function Guide() {
     return (

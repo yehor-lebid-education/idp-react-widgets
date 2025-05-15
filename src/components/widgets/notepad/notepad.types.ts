@@ -1,8 +1,10 @@
 import { IWidgetCommon, IWidgetCommonOptions } from "../widget-common.type";
 
-export type INotepadOptions = IWidgetCommonOptions & {
+export type INotepadConfig = {
     title: string;
 };
+
+export type INotepadOptions = IWidgetCommonOptions & INotepadConfig;
 
 export interface INotepadWidget extends IWidgetCommon {
     type: 'notepad';

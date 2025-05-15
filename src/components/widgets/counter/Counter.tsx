@@ -22,7 +22,7 @@ export default function Counter({ id, options }: CounterProps) {
  * A Main Counter Widget used on grid.
  */
 function CounterWidget({ id, options }: CounterProps) {
-    const { step, total } = options;
+    const { step, total, label } = options;
     const [counter, setCounter] = useState<number>(() => {
         const value = storage.get(id);
         return typeof value === 'number' && !isNaN(value) ? value : 0;
@@ -47,7 +47,7 @@ function CounterWidget({ id, options }: CounterProps) {
     return (
         <WidgetContainer className="text-center">
             <div className="flex items-center justify-center">
-                <div className="text-sm tracking-wide pr-4">Tracker:</div>
+                <div className="text-sm tracking-wide pr-4">{label}</div>
                 <DecrementButton onClick={decrement} />
                 <span className="px-3 font-bold text-lg strong">{counter}/{total}</span>
                 <IncrementButton onClick={increment} />

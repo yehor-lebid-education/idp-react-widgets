@@ -1,8 +1,10 @@
 import { IWidgetCommon, IWidgetCommonOptions } from "../widget-common.type";
 
-export type IQuoteOptions = IWidgetCommonOptions & {
-    refreshDuration?: number; // in milliseconds
-};
+export type IQuoteConfig = {
+    refreshDuration: number; // in milliseconds
+}
+
+export type IQuoteOptions = IWidgetCommonOptions & IQuoteConfig;
 
 export interface IQuoteWidget extends IWidgetCommon {
     type: 'quote';

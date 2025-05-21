@@ -13,7 +13,7 @@ export const COUNTER_LAYOUT_CONFIG: IWidgetLayoutConfig = {
 
 export const COUNTER_DEFAULT_LAYOUT: ICounterWidget['layout'] = { x: 0, y: 0, w: 2, h: 1 };
 
-export const COUNTER_DEFAULT_OPTIONS: ICounterWidget['options'] = { step: 1, total: 10 };
+export const COUNTER_DEFAULT_OPTIONS: ICounterWidget['options'] = { step: 1, total: 10, label: '' };
 
 export const COUNTER_WIDGET_CONFIG: IWidgetConfigNumber[] = [
     { name: 'Counter', field: 'total', type: 'number', min: 0, max: 1_000_000 },

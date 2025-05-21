@@ -1,4 +1,3 @@
-import { useState } from "react";
 import classname from "../../../utils/classname";
 import Text from "../ui/Text";
 import "./input.css";

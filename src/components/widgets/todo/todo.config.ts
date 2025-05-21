@@ -1,4 +1,5 @@
 import { IWidgetLayoutConfig } from "../widget.type";
+import { ITodoConfig } from "./todo.types";
 
 export const TODO_LAYOUT_CONFIG: IWidgetLayoutConfig = {
     minH: 4,
@@ -9,4 +10,4 @@ export const TODO_LAYOUT_CONFIG: IWidgetLayoutConfig = {
 
 export const TODO_DELETE_ICON_SIZE = 20;
 export const TODO_ADD_ICON_SIZE = 20;
-export const TODO_DEFAULT_OPTIONS = {};
+export const TODO_DEFAULT_OPTIONS: ITodoConfig = { title: 'Todo' };

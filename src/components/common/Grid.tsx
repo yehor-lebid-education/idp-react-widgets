@@ -5,7 +5,7 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
 import Widget from './Widget';
-import { Edit3, Eye, Plus, Trash2, X } from 'lucide-react';
+import { Edit3, Eye, Plus, Trash2 } from 'lucide-react';
 import classname from '../../utils/classname';
 import { IWidget, IWidgetLayoutChange } from '../widgets/widget.type';
 import { GRID, NON_DRAGGABLE_CLASS } from '../../constants';

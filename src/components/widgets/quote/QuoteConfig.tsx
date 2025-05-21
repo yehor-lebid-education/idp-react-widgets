@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Input, { SelectInput } from "../../common/inputs/Input";
+import { SelectInput } from "../../common/inputs/Input";
 import Row from "../../common/ui/Row";
 import { IQuoteConfig, IQuoteWidget } from "./quote.types";
 

@@ -4,7 +4,6 @@ import generateId from "../../../utils/generate-id";
 import * as storage from "../../../utils/storage.helper";
 import { ITodo, ITodoWidget } from "./todo.types";
 import { TODO_ADD_ICON_SIZE, TODO_DELETE_ICON_SIZE } from "./todo.config";
-import Text from "../../common/ui/Text";
 
 interface TodoProps {
     id: ITodoWidget['id'];

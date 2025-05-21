@@ -36,7 +36,7 @@ export default function GridWidget({
     onWidgetAdd,
     onDeleteAll,
 }: GridWidgetProps) {
-    const [editMode, setEditMode] = useState(true);
+    const [editMode, setEditMode] = useState(false);
     const [addMode, setAddMode] = useState(false);
     const [widgetContextMenu, setWidgetContextMenu] = useState<{ widget: IWidget; position: IPosition } | null>(null);
 

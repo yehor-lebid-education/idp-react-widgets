@@ -20,6 +20,8 @@ interface IPosition {
 }
 
 interface GridWidgetProps {
+    mode: 'view' | 'edit'
+    onModeChange: (mode: 'view' | 'edit') => void;
     widgets: IWidget[];
     // Handle both size change and movement
     onWidgetLayoutChange: (id: IWidget['id'], newLayout: IWidgetLayoutChange) => void;
@@ -29,16 +31,24 @@ interface GridWidgetProps {
     onDeleteAll: () => void;
 }
 export default function GridWidget({
+    mode,
     widgets,
+    onModeChange,
     onWidgetLayoutChange,
     onWidgetConfigChange,
     onWidgetDelete,
     onWidgetAdd,
     onDeleteAll,
 }: GridWidgetProps) {
-    const [editMode, setEditMode] = useState(true);
     const [addMode, setAddMode] = useState(false);
     const [widgetContextMenu, setWidgetContextMenu] = useState<{ widget: IWidget; position: IPosition } | null>(null);
+
+    const editMode = mode === 'edit';
+
+    function handleModeChange() {
+        const newMode = editMode ? 'view' : 'edit';
+        return onModeChange(newMode);
+    }
 
     useEffect(() => {
         if (!widgetContextMenu) {
@@ -159,7 +169,7 @@ export default function GridWidget({
             <div className="flex flex-col fixed bottom-2 right-2">
                 {editMode && <AddWidgetButton onClick={() => setAddMode(true)} />}
                 {editMode && <DeleteAllButton onClick={() => deleteAll()} />}
-                <EditViewGridButton editMode={editMode} onClick={() => setEditMode(prev => !prev)} />
+                <EditViewGridButton editMode={editMode} onClick={handleModeChange} />
             </div>
 
 

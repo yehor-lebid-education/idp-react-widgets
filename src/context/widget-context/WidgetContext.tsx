@@ -27,7 +27,9 @@ export function WidgetContextProvider({ children }: WidgetContextProviderProps) 
 // TOOLS:
 function getInitialState(): State {
     const value = storage.get(STORAGE_KEY);
-    const initialState: State = value && typeof value === 'object' ? value : DEFAULT_STATE;
+    const initialState: State = value && typeof value === 'object'
+        ? value as State
+        : DEFAULT_STATE;
 
     // On load apply changes to widgets from configs
     initialState.widgets = applyWidgetOptions(initialState.widgets);

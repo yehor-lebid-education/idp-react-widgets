@@ -1,39 +1,11 @@
-import GridWidget from './components/common/Grid';
-import { useWidgetContext } from './context/widget-context/reducer';
-import { IWidget, IWidgetLayoutChange } from './components/widgets/widget.type';
-
+import TabPage from './pages/TabPage';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 export default function App() {
-    const { state, dispatch } = useWidgetContext();
-
-    function handleWidgetDelete(id: IWidget['id']) {
-        dispatch({ type: 'WIDGET_DELETE', payload: { id } });
-    }
-
-    function handleWidgetConfigChange(id: IWidget['id'], options: Partial<IWidget['options']>) {
-        dispatch({ type: 'WIDGET_UPDATE_CONFIG', payload: { id, options } });
-    }
-
-    function handleWidgetLayoutChange(id: IWidget['id'], layout: IWidgetLayoutChange) {
-        dispatch({ type: 'WIDGET_UPDATE_LAYOUT', payload: { id, layout } });
-    }
-
-    function handleWidgetAdd(widget: IWidget) {
-        dispatch({ type: 'WIDGET_ADD', payload: { widget } });
-    }
-
-    function handleDeleteAll() {
-        dispatch({ type: 'DELETE_ALL' });
-    }
-
     return (
-        <GridWidget
-            widgets={state.widgets}
-            onWidgetAdd={handleWidgetAdd}
-            onWidgetDelete={handleWidgetDelete}
-            onWidgetConfigChange={handleWidgetConfigChange}
-            onWidgetLayoutChange={handleWidgetLayoutChange}
-            onDeleteAll={handleDeleteAll}
-        />
+        <Routes>
+            <Route path="/:idx" element={<TabPage />} />
+            <Route path="*" element={<Navigate to="/0" replace />} />
+        </Routes>
     )
 }

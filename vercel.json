@@ -1,0 +1,16 @@
+{
+    "analytics": {
+        "enabled": false
+    },
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "x-vercel-toolbar",
+                    "value": "false"
+                }
+            ]
+        }
+    ]
+}

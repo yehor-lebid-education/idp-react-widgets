@@ -1,29 +1,37 @@
 import GridWidget from './components/common/Grid';
-import { useWidgetContext } from './context/widget-context/reducer';
+import { Action, useWidgetContext } from './context/widget-context/reducer';
 import { IWidget, IWidgetLayoutChange } from './components/widgets/widget.type';
+import useWidgetBroadcastHandler from './hooks/useWidgetBroadcastHandler';
+import { widgetBroadcastChannel } from './utils/broadcast';
 
 
 export default function App() {
+    useWidgetBroadcastHandler();
+
     const { state, dispatch } = useWidgetContext();
+    const dispatchAction = (action: Action) => {
+        dispatch(action);
+        widgetBroadcastChannel.postMessage(action);
+    };
 
     function handleWidgetDelete(id: IWidget['id']) {
-        dispatch({ type: 'WIDGET_DELETE', payload: { id } });
+        dispatchAction({ type: 'WIDGET_DELETE', payload: { id } });
     }
 
     function handleWidgetConfigChange(id: IWidget['id'], options: Partial<IWidget['options']>) {
-        dispatch({ type: 'WIDGET_UPDATE_CONFIG', payload: { id, options } });
+        dispatchAction({ type: 'WIDGET_UPDATE_CONFIG', payload: { id, options } });
     }
 
     function handleWidgetLayoutChange(id: IWidget['id'], layout: IWidgetLayoutChange) {
-        dispatch({ type: 'WIDGET_UPDATE_LAYOUT', payload: { id, layout } });
+        dispatchAction({ type: 'WIDGET_UPDATE_LAYOUT', payload: { id, layout } });
     }
 
     function handleWidgetAdd(widget: IWidget) {
-        dispatch({ type: 'WIDGET_ADD', payload: { widget } });
+        dispatchAction({ type: 'WIDGET_ADD', payload: { widget } });
     }
 
     function handleDeleteAll() {
-        dispatch({ type: 'DELETE_ALL' });
+        dispatchAction({ type: 'DELETE_ALL' });
     }
 
     return (

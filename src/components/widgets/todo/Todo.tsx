@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Check, Plus, Trash2 } from "lucide-react";
 import generateId from "../../../utils/generate-id";
 import { ITodo, ITodoConfig, ITodoWidget } from "./todo.types";
@@ -23,26 +23,21 @@ function TodoWidget({ id }: { id: ITodoWidget['id'] }) {
     const { title } = widgetOptions || TODO_DEFAULT_OPTIONS;
 
     const { widgetData, updateWidgetData } = useWidgetData<ITodoWidget['data']>(id);
-
-    const [todos, setTodos] = useState<ITodo[]>(Array.isArray(widgetData) ? widgetData : []);
-
-    useEffect(() => {
-        updateWidgetData(todos);
-    }, [id, todos]);
+    const todos = Array.isArray(widgetData) ? widgetData : [];
 
     function handleToggleIsDone(id: ITodo['id']) {
-        setTodos(prevTodos => prevTodos.map(todo => ({
+        updateWidgetData(todos.map(todo => ({
             ...todo,
             isDone: todo.id === id ? !todo.isDone : todo.isDone
         })));
     };
 
     function handleDelete(id: ITodo['id']) {
-        setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
+        updateWidgetData(todos.filter(todo => todo.id !== id));
     }
 
     function handleAdd(label: ITodo['label']) {
-        setTodos(prevTodos => ([...prevTodos, { id: generateId(), label, isDone: false }]));
+        updateWidgetData(([...todos, { id: generateId(), label, isDone: false }]));
     }
 
     return (

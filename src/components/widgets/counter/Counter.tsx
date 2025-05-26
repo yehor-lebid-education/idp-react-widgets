@@ -27,24 +27,18 @@ function CounterWidget({ id }: { id: ICounterWidget['id'] }) {
     const { step, total, label } = widgetOptions || COUNTER_DEFAULT_OPTIONS;
 
     const { widgetData, updateWidgetData } = useWidgetData<ICounterWidget['data']>(id);
-    const [counter, setCounter] = useState<number>(() =>
-        typeof widgetData === 'number' && !isNaN(widgetData) ? widgetData : 0
-    );
-
-    useEffect(() => {
-        updateWidgetData(counter);
-    }, [id, counter]);
+    const counter = typeof widgetData === 'number' && !isNaN(widgetData) ? widgetData : 0;
 
     function increment() {
-        setCounter(prevCounter => prevCounter + step >= total ? total : prevCounter + step);
+        updateWidgetData(counter + step >= total ? total : counter + step);
     }
 
     function decrement() {
-        setCounter(prevCounter => prevCounter - step >= 0 ? prevCounter - step : 0);
+        updateWidgetData(counter - step >= 0 ? counter - step : 0);
     }
 
     function reset() {
-        setCounter(0);
+        updateWidgetData(0);
     }
 
     return (

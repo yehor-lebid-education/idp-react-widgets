@@ -95,7 +95,12 @@ function WidgetSelectorItem({ disabled, widget, onClick }: WidgetSelectorItemPro
             )}
         >
             <div className="relative w-full h-[90px] flex items-center justify-center rounded-md bg-white/10 border border-white/10">
-                <Widget widget={widget} editMode={true} />
+                <Widget
+                    widgetId={widget.id}
+                    widgetType={widget.type}
+                    editMode={true}
+                    previewMode={widget.options?.mode === 'preview' || false}
+                />
                 {!disabled && <Plus className="absolute top-[50%] left-[50%] translate-[-50%] w-12 h-12 p-3 rounded-4xl bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity" />}
             </div>
             {disabled

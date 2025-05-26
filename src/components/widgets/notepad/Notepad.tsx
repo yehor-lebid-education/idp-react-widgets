@@ -1,30 +1,32 @@
 import { useEffect, useState } from "react";
-import * as storage from "../../../utils/storage.helper";
-import { INotepadOptions, INotepadWidget } from "./notepad.types";
+import { INotepadConfig, INotepadWidget } from "./notepad.types";
+import useWidgetOptions from "../../../hooks/useWidgetOptions";
+import useWidgetData from "../../../hooks/useWidgetData";
+import { NOTEPAD_DEFAULT_OPTIONS } from "./notepad.config";
 
 interface NotepadProps {
     id: INotepadWidget['id'];
-    options: INotepadOptions;
+    previewMode?: boolean;
 }
 
-export default function Notepad({ id, options }: NotepadProps) {
-    if (options.mode === 'preview') {
+export default function Notepad({ id, previewMode }: NotepadProps) {
+    if (previewMode) {
         return <NotepadPreviewWidget />;
     }
 
-    return <NotepadWidget id={id} options={options} />;
+    return <NotepadWidget id={id} />;
 }
 
-function NotepadWidget({ id, options }: NotepadProps) {
-    const { title } = options;
+function NotepadWidget({ id }: { id: INotepadWidget['id'] }) {
+    const { widgetOptions } = useWidgetOptions<INotepadConfig>(id);
+    const { title } = widgetOptions || NOTEPAD_DEFAULT_OPTIONS;
 
-    const [text, setText] = useState(() => {
-        const value = storage.get(id);
-        return typeof value === 'string' ? value : '';
-    });
+    const { widgetData, updateWidgetData } = useWidgetData<INotepadWidget['data']>(id);
+
+    const [text, setText] = useState(typeof widgetData === 'string' ? widgetData : '');
 
     useEffect(() => {
-        storage.save(id, text);
+        updateWidgetData(text);
     }, [id, text]);
 
     return (

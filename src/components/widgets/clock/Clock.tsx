@@ -1,25 +1,28 @@
 import { useEffect, useState } from "react";
 import { getCurrentDateFormatted } from "../../../utils/date";
-import { IClockOptions, IClockWidget } from "./clock.types";
+import { IClockConfig, IClockWidget } from "./clock.types";
 import { CLOCK_DEFAULT_OPTIONS, CLOCK_REFRESH_INTERVAL } from "./clock.config";
 import WidgetContainer from "../../common/WidgetContainer";
+import useWidgetOptions from "../../../hooks/useWidgetOptions";
 
 interface ClockProps {
     id: IClockWidget['id'];
-    options: IClockOptions;
+    previewMode?: boolean;
 }
 
-export default function Clock({ id, options }: ClockProps) {
-    if (options.mode === 'preview') {
+export default function Clock({ id, previewMode }: ClockProps) {
+    if (previewMode) {
         return <ClockPreviewWidget />;
     }
 
-    return <ClockWidget id={id} options={options} />;
+    return <ClockWidget id={id} />;
 }
 
-function ClockWidget({ options }: ClockProps) {
-    const { dateFormat } = options;
-    const [date, setDate] = useState<string>(() => getCurrentDateFormatted(dateFormat || CLOCK_DEFAULT_OPTIONS.dateFormat));
+function ClockWidget({ id }: { id: IClockWidget['id'] }) {
+    const { widgetOptions } = useWidgetOptions<IClockConfig>(id);
+    const { dateFormat } = widgetOptions || CLOCK_DEFAULT_OPTIONS;
+
+    const [date, setDate] = useState<string>(() => getCurrentDateFormatted(dateFormat));
 
     useEffect(() => {
         setDate(getCurrentDateFormatted(dateFormat));

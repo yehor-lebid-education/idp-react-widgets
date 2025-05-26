@@ -1,35 +1,38 @@
 import { useEffect, useState } from "react";
 import { Minus, Plus, RotateCcw } from "lucide-react";
-import * as storage from '../../../utils/storage.helper';
-import { ICounterOptions, ICounterWidget } from "./counter.types";
-import { COUNTER_BUTTONS_SIZE } from "./counter.config";
+import { ICounterConfig, ICounterWidget } from "./counter.types";
+import { COUNTER_BUTTONS_SIZE, COUNTER_DEFAULT_OPTIONS } from "./counter.config";
 import WidgetContainer from "../../common/WidgetContainer";
+import useWidgetOptions from "../../../hooks/useWidgetOptions";
+import useWidgetData from "../../../hooks/useWidgetData";
 
 interface CounterProps {
     id: ICounterWidget['id'];
-    options: ICounterOptions;
+    previewMode?: boolean;
 }
 
-export default function Counter({ id, options }: CounterProps) {
-    if (options?.mode === 'preview') {
+export default function Counter({ id, previewMode }: CounterProps) {
+    if (previewMode) {
         return <CounterPreviewWidget />
     }
 
-    return <CounterWidget id={id} options={options} />
+    return <CounterWidget id={id} />
 }
 
 /**
  * A Main Counter Widget used on grid.
  */
-function CounterWidget({ id, options }: CounterProps) {
-    const { step, total, label } = options;
-    const [counter, setCounter] = useState<number>(() => {
-        const value = storage.get(id);
-        return typeof value === 'number' && !isNaN(value) ? value : 0;
-    });
+function CounterWidget({ id }: { id: ICounterWidget['id'] }) {
+    const { widgetOptions } = useWidgetOptions<ICounterConfig>(id);
+    const { step, total, label } = widgetOptions || COUNTER_DEFAULT_OPTIONS;
+
+    const { widgetData, updateWidgetData } = useWidgetData<ICounterWidget['data']>(id);
+    const [counter, setCounter] = useState<number>(() =>
+        typeof widgetData === 'number' && !isNaN(widgetData) ? widgetData : 0
+    );
 
     useEffect(() => {
-        storage.save(id, counter);
+        updateWidgetData(counter);
     }, [id, counter]);
 
     function increment() {

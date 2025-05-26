@@ -1,28 +1,33 @@
 import { useEffect, useState } from "react";
 import { Check, Plus, Trash2 } from "lucide-react";
 import generateId from "../../../utils/generate-id";
-import * as storage from "../../../utils/storage.helper";
-import { ITodo, ITodoWidget } from "./todo.types";
-import { TODO_ADD_ICON_SIZE, TODO_DELETE_ICON_SIZE } from "./todo.config";
+import { ITodo, ITodoConfig, ITodoWidget } from "./todo.types";
+import { TODO_ADD_ICON_SIZE, TODO_DEFAULT_OPTIONS, TODO_DELETE_ICON_SIZE } from "./todo.config";
+import useWidgetOptions from "../../../hooks/useWidgetOptions";
+import useWidgetData from "../../../hooks/useWidgetData";
 
 interface TodoProps {
     id: ITodoWidget['id'];
-    data: ITodoWidget['data'];
-    options: ITodoWidget['options'];
+    previewMode?: boolean;
 }
-export default function Todo({ id, options, data }: TodoProps) {
-    if (options.mode === 'preview') {
+export default function Todo({ id, previewMode }: TodoProps) {
+    if (previewMode) {
         return <TodoPreviewWidget />;
     }
 
-    return <TodoWidget id={id} data={data} options={options} />;
+    return <TodoWidget id={id} />;
 }
 
-function TodoWidget({ id, options, data }: TodoProps) {
-    const [todos, setTodos] = useState<ITodo[]>(Array.isArray(data) ? data : []);
+function TodoWidget({ id }: { id: ITodoWidget['id'] }) {
+    const { widgetOptions } = useWidgetOptions<ITodoConfig>(id);
+    const { title } = widgetOptions || TODO_DEFAULT_OPTIONS;
+
+    const { widgetData, updateWidgetData } = useWidgetData<ITodoWidget['data']>(id);
+
+    const [todos, setTodos] = useState<ITodo[]>(Array.isArray(widgetData) ? widgetData : []);
 
     useEffect(() => {
-        storage.save(id, todos);
+        updateWidgetData(todos);
     }, [id, todos]);
 
     function handleToggleIsDone(id: ITodo['id']) {
@@ -42,7 +47,7 @@ function TodoWidget({ id, options, data }: TodoProps) {
 
     return (
         <div className="w-full h-full pt-4 flex flex-col justify-between items-center">
-            {options.title && <h2 className="text-white font-mono text-xl mb-3">{options.title}</h2>}
+            {title && <h2 className="text-white font-mono text-xl mb-3">{title}</h2>}
             <ul className="space-y-4 p-4">
                 {todos.map(todo => (
                     <li key={todo.id}>

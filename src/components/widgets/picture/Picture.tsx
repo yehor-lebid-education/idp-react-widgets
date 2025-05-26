@@ -1,19 +1,23 @@
-import { IPictureOptions } from "./picture.types";
+import useWidgetOptions from "../../../hooks/useWidgetOptions";
+import { PICTURE_DEFAULT_OPTIONS } from "./picture.config";
+import { IPictureConfig, IPictureWidget } from "./picture.types";
 
 interface PictureProps {
-    options: IPictureOptions;
+    id: IPictureWidget['id'];
+    previewMode?: boolean;
 }
 
-export default function Picture({ options }: PictureProps) {
-    if (options.mode === 'preview') {
+export default function Picture({ id, previewMode }: PictureProps) {
+    if (previewMode) {
         return <PicturePreviewWidget />;
     }
 
-    return <PictureWidget options={options} />;
+    return <PictureWidget id={id} />;
 }
 
-function PictureWidget({ options }: PictureProps) {
-    const { url, title, width } = options;
+function PictureWidget({ id }: { id: IPictureWidget['id'] }) {
+    const { widgetOptions } = useWidgetOptions<IPictureConfig>(id);
+    const { url, title, width } = widgetOptions || PICTURE_DEFAULT_OPTIONS;
 
     return (
         <div className="overflow-hidden w-[100%] text-white">

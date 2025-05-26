@@ -4,9 +4,9 @@ import { ActionWidgetUpdateConfig, useWidgetContext } from "../context/widget-co
 
 type Options = ActionWidgetUpdateConfig['payload']['options'];
 
-export default function useWidgetOptions(id: IWidget['id']): {
-    widgetOptions: IWidget['options'] | null;
-    updateWidgetOptions: (options: Options) => void;
+export default function useWidgetOptions<T extends Options = Options>(id: IWidget['id']): {
+    widgetOptions: T | null;
+    updateWidgetOptions: (options: T) => void;
 } {
     const { state, dispatch } = useWidgetContext();
 
@@ -16,7 +16,7 @@ export default function useWidgetOptions(id: IWidget['id']): {
     }, [dispatch, id]);
 
     return {
-        widgetOptions: widget?.options || null,
+        widgetOptions: widget?.options as T || null,
         updateWidgetOptions,
     }
 }

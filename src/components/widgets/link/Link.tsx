@@ -1,24 +1,27 @@
 import { useState } from "react";
 import { Globe } from "lucide-react";
-import { ILinkOptions } from "./link.types";
+import { ILinkConfig, ILinkWidget } from "./link.types";
 import { getFaviconUrl } from "./link.helper";
 import { LINK_DEFAULT_OPTIONS, LINK_ICON_SIZE } from "./link.config";
 import WidgetContainer from "../../common/WidgetContainer";
+import useWidgetOptions from "../../../hooks/useWidgetOptions";
 
 interface LinkProps {
-    options: ILinkOptions
+    id: ILinkWidget['id'];
+    previewMode?: boolean;
 }
 
-export default function Link({ options }: LinkProps) {
-    if (options?.mode === 'preview') {
+export default function Link({ id, previewMode }: LinkProps) {
+    if (previewMode) {
         return <LinkPreviewWidget />
     }
 
-    return <LinkWidget options={options} />
+    return <LinkWidget id={id} />
 }
 
-function LinkWidget({ options }: LinkProps) {
-    const { url, label } = options;
+function LinkWidget({ id }: { id: ILinkWidget['id'] }) {
+    const { widgetOptions } = useWidgetOptions<ILinkConfig>(id);
+    const { url, label } = widgetOptions || LINK_DEFAULT_OPTIONS;
 
     return (
         <WidgetContainer>
@@ -61,8 +64,6 @@ function Favicon({ url }: FaviconProps) {
         return <Globe size={LINK_ICON_SIZE} className="text-white/80" />;
     }
 
-    // TODO: Does not work.
-    // TODO: Replace with Image component
     return (
         <img
             src={favicon}

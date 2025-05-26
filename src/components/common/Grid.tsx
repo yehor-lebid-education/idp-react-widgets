@@ -47,7 +47,7 @@ export default function GridWidget({
 
         const newWidget = widgets.find(({ id }) => id === widgetContextMenu.widget.id);
         if (!newWidget) setWidgetContextMenu(null);
-        else setWidgetContextMenu({...widgetContextMenu, widget: newWidget});
+        else setWidgetContextMenu({ ...widgetContextMenu, widget: newWidget });
 
     }, [widgets]);
 
@@ -135,7 +135,12 @@ export default function GridWidget({
                         )}
                     >
                         {editMode && <TileButton icon="minus" position="top-left" className={[NON_DRAGGABLE_CLASS, 'hover:bg-red-400']} onClick={() => handleDeleteWidget(widget.id)} />}
-                        <Widget editMode={editMode} widget={widget} />
+                        <Widget
+                            widgetId={widget.id}
+                            widgetType={widget.type}
+                            editMode={editMode}
+                            previewMode={widget.options?.mode === 'preview' || false}
+                        />
                     </div>
                 ))}
             </GridLayout>

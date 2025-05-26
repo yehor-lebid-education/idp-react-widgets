@@ -52,3 +52,18 @@ export default tseslint.config({
   },
 })
 ```
+
+
+
+
+### Supabase
+
+```
+supabase login
+
+supabase link
+
+supabase migration new <MIGRATION_NAME>
+
+supabase db push
+```

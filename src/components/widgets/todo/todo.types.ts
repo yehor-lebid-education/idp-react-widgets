@@ -9,6 +9,7 @@ export type ITodoWidgetOptions = IWidgetCommonOptions & ITodoConfig;
 export interface ITodoWidget extends IWidgetCommon {
     type: 'todo';
     options: ITodoWidgetOptions;
+    data: ITodo[];
 }
 
 export interface ITodo {

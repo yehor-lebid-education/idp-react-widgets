@@ -7,6 +7,7 @@ import { createContext, useContext } from "react";
 // STATE:
 export type State = {
     widgets: IWidget[];
+    widgetsData: { [key: IWidget['id']]: IWidget['data'] };
 };
 
 
@@ -15,18 +16,21 @@ export type ActionWidgetAdd = { type: 'WIDGET_ADD'; payload: { widget: IWidget }
 export type ActionWidgetDelete = { type: 'WIDGET_DELETE'; payload: { id: IWidget['id'] } };
 export type ActionWidgetUpdateConfig = { type: 'WIDGET_UPDATE_CONFIG'; payload: { id: IWidget['id'], options: Partial<IWidget['options']> } };
 export type ActionWidgetUpdateLayout = { type: 'WIDGET_UPDATE_LAYOUT'; payload: { id: IWidget['id'], layout: IWidgetLayoutChange } };
+export type ActionWidgetUpdateData = { type: 'WIDGET_UPDATE_DATA'; payload: { id: IWidget['id'], data: IWidget['data'] } };
 export type ActionDeleteAll = { type: 'DELETE_ALL'; };
 export type Action =
     | ActionWidgetAdd
     | ActionWidgetDelete
     | ActionWidgetUpdateConfig
     | ActionWidgetUpdateLayout
+    | ActionWidgetUpdateData
     | ActionDeleteAll;
 
 
 // CONSTANTS:
 export const DEFAULT_STATE: State = {
     widgets: [],
+    widgetsData: {},
 };
 
 
@@ -41,6 +45,8 @@ export function reducer(state: State, action: Action): State {
             return handleWidgetUpdateConfigAction(state, action);
         case 'WIDGET_UPDATE_LAYOUT':
             return handleWidgetUpdateLayoutAction(state, action);
+        case 'WIDGET_UPDATE_DATA':
+            return handleWidgetUpdateData(state, action);
         case 'DELETE_ALL':
             return handleDeleteAllAction(state);
         default:
@@ -101,6 +107,16 @@ function handleWidgetUpdateLayoutAction(state: State, { payload }: ActionWidgetU
         return widget;
     });
     return { ...state, widgets: newWidgets };
+}
+
+function handleWidgetUpdateData(state: State, { payload }: ActionWidgetUpdateData): State {
+    return {
+        ...state,
+        widgetsData: {
+            ...state.widgetsData,
+            [payload.id]: payload.data,
+        },
+    };
 }
 
 function handleDeleteAllAction(state: State) {

@@ -7,22 +7,19 @@ import { TODO_ADD_ICON_SIZE, TODO_DELETE_ICON_SIZE } from "./todo.config";
 
 interface TodoProps {
     id: ITodoWidget['id'];
+    data: ITodoWidget['data'];
     options: ITodoWidget['options'];
 }
-
-export default function Todo({ id, options }: TodoProps) {
+export default function Todo({ id, options, data }: TodoProps) {
     if (options.mode === 'preview') {
         return <TodoPreviewWidget />;
     }
 
-    return <TodoWidget id={id} options={options} />;
+    return <TodoWidget id={id} data={data} options={options} />;
 }
 
-function TodoWidget({ id, options }: TodoProps) {
-    const [todos, setTodos] = useState<ITodo[]>(() => {
-        const value = storage.get(id);
-        return Array.isArray(value) ? value : [];
-    });
+function TodoWidget({ id, options, data }: TodoProps) {
+    const [todos, setTodos] = useState<ITodo[]>(Array.isArray(data) ? data : []);
 
     useEffect(() => {
         storage.save(id, todos);

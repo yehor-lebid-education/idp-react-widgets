@@ -1,7 +1,7 @@
 export interface IWidgetCommon {
     id: string;
     layout: Omit<ReactGridLayout.Layout, 'i'>;
-    data?: any;
+    data?: unknown;
 }
 
 export interface IWidgetCommonOptions {

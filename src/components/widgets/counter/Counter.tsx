@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Minus, Plus, RotateCcw } from "lucide-react";
 import { ICounterConfig, ICounterWidget } from "./counter.types";
 import { COUNTER_BUTTONS_SIZE, COUNTER_DEFAULT_OPTIONS } from "./counter.config";

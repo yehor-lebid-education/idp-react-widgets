@@ -3,7 +3,7 @@ import * as widgetData from "../../spec/widget.data";
 import * as widgetHelper from "../widgets/widget.helper";
 import { IWidget } from "../widgets/widget.type";
 import Widget from "./Widget";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import generateId from "../../utils/generate-id";
 import classname from "../../utils/classname";
 
@@ -13,7 +13,7 @@ interface WidgetSelectorProps {
     onAdd: (widget: IWidget) => void;
 }
 export default function WidgetSelector({ widgets, onClose, onAdd }: WidgetSelectorProps) {
-    const widgetList: IWidget[] = widgetData.getWidgetsData({ mode: 'preview' });
+    const widgetList = useMemo(() => widgetData.getWidgetsData({ mode: 'preview' }), []);
     const [availableSpotMap, setAvailableSpotMap] = useState<Map<IWidget['type'], IWidget['layout'] | null>>(new Map());
 
     useEffect(() => {
@@ -24,7 +24,7 @@ export default function WidgetSelector({ widgets, onClose, onAdd }: WidgetSelect
         }
 
         createAvailableSpotMap();
-    }, [widgets]);
+    }, [widgets, widgetList]);
 
     function hasSpotForItem(widget: IWidget) {
         const spot = availableSpotMap.get(widget.type);

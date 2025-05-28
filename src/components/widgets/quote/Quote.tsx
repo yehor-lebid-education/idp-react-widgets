@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { IQuote } from "./quote.data";
 import { getRandomQuote } from "./quote.helper";
 import { IQuoteConfig, IQuoteWidget } from "./quote.types";
-import { QUOTE_DEFAULT_OPTIONS, QUOTE_REFRESH_DURATION } from "./quote.config";
+import { QUOTE_DEFAULT_OPTIONS } from "./quote.config";
 import useWidgetOptions from "../../../hooks/useWidgetOptions";
 
 interface QuoteProps {
@@ -23,7 +23,7 @@ function QuoteWidget({ id }: { id: IQuoteWidget['id'] }) {
     const { refreshDuration } = widgetOptions || QUOTE_DEFAULT_OPTIONS;
 
     const [quote, setQuote] = useState<IQuote>(getRandomQuote());
-    const { current } = useRef<{ intervalId: any }>({ intervalId: undefined });
+    const { current } = useRef<{ intervalId?: number | NodeJS.Timeout }>({ intervalId: undefined });
 
     useEffect(() => {
         if (current.intervalId) {

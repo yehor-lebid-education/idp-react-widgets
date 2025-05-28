@@ -49,7 +49,7 @@ export default function GridWidget({
         if (!newWidget) setWidgetContextMenu(null);
         else setWidgetContextMenu({ ...widgetContextMenu, widget: newWidget });
 
-    }, [widgets]);
+    }, [widgets, widgetContextMenu]);
 
     function handleLayoutChange(_layout: Layout[], _oldLayout: Layout, newLayout: Layout) {
         if (typeof onWidgetLayoutChange !== 'function') {

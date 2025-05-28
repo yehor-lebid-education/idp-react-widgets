@@ -59,7 +59,9 @@ function NumberInput({ value, name, onChange, label, placeholder, readonly, ...p
         if (newValue < min) newValue = min;
         if (newValue > max) newValue = max;
 
-        typeof onChange === 'function' && onChange(newValue);
+        if (typeof onChange === 'function') {
+            onChange(newValue);
+        }
     }
 
     return (
@@ -97,7 +99,9 @@ function TextInput({ value, name, onChange, label, placeholder, readonly, ...pro
         if (newValue.length < minLength) newValue = value.slice(0, minLength);
         if (newValue.length > maxLength) newValue = newValue.slice(0, maxLength);
 
-        typeof onChange === 'function' && onChange(newValue);
+        if (typeof onChange === 'function') {
+            onChange(newValue);
+        }
     }
 
     return (
@@ -128,8 +132,9 @@ function UrlInput({ value, name, onChange, label, placeholder, readonly, ...prop
     const width = props.width || 50;
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        let newValue = String(e.target.value);
-        typeof onChange === 'function' && onChange(newValue);
+        if (typeof onChange === 'function') {
+            onChange(String(e.target.value));
+        }
     }
 
     return (

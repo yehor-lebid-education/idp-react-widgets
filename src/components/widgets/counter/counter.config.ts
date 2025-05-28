@@ -6,7 +6,7 @@ export const COUNTER_BUTTONS_SIZE = 18;
 
 export const COUNTER_LAYOUT_CONFIG: IWidgetLayoutConfig = {
     minH: 1,
-    minW: 2,
+    minW: 1,
     maxH: 2,
     maxW: 2,
 } as const;

@@ -2,6 +2,7 @@ import { INotepadConfig, INotepadWidget } from "./notepad.types";
 import useWidgetOptions from "../../../hooks/useWidgetOptions";
 import useWidgetData from "../../../hooks/useWidgetData";
 import { NOTEPAD_DEFAULT_OPTIONS } from "./notepad.config";
+import Row from "../../common/ui/Row";
 
 interface NotepadProps {
     id: INotepadWidget['id'];
@@ -24,14 +25,16 @@ function NotepadWidget({ id }: { id: INotepadWidget['id'] }) {
     const text = typeof widgetData === 'string' ? widgetData : '';
 
     return (
-        <div>
+        <div className="w-full h-full p-4">
             {title && <h2 className="text-white font-mono text-xl mb-3">{title}</h2>}
-            <textarea
+            <Row className="w-full h-[90%]">
+                <textarea
                 value={text}
                 onChange={(e) => updateWidgetData(e.target.value)}
                 placeholder="Type your notes here..."
-                className="w-full h-48 resize-none bg-transparent text-white font-mono placeholder-white/50 outline-none border border-white/20 rounded-lg p-3 focus:border-white/40 transition"
+                className="w-full h-full resize-none bg-transparent text-white font-mono placeholder-white/50 outline-none border border-white/10 rounded-lg p-3 focus:border-white/30 transition"
             />
+            </Row>
         </div>
     );
 }

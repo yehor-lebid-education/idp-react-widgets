@@ -20,14 +20,14 @@ function PictureWidget({ id }: { id: IPictureWidget['id'] }) {
     const { url, title, width } = widgetOptions || PICTURE_DEFAULT_OPTIONS;
 
     return (
-        <div className="overflow-hidden w-[100%] text-white">
+        <div className="w-full h-full overflow-hidden text-white">
             {title && <PictureTitle title={title} />}
             <div className="p-4 w-full h-full flex items-center justify-center">
                 <img
                     src={url}
                     alt={title || 'Image'}
                     style={{ width }}
-                    className="rounded-xl w-full object-cover"
+                    className="w-full max-w-[100%] max-h-[100%] rounded-xl object-cover"
                 />
             </div>
         </div>

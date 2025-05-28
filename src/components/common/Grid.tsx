@@ -49,7 +49,7 @@ export default function GridWidget({
         if (!newWidget) setWidgetContextMenu(null);
         else setWidgetContextMenu({ ...widgetContextMenu, widget: newWidget });
 
-    }, [widgets, widgetContextMenu]);
+    }, [widgets]);
 
     function handleLayoutChange(_layout: Layout[], _oldLayout: Layout, newLayout: Layout) {
         if (typeof onWidgetLayoutChange !== 'function') {
@@ -98,6 +98,10 @@ export default function GridWidget({
 
     function handleContextMenu(e: React.MouseEvent<HTMLDivElement, MouseEvent>, widget: IWidget) {
         e.preventDefault();
+
+        if (!editMode) {
+            return;
+        }
 
         const maxX = window.innerWidth - (CONTEXT_MENU_WIDTH + CONTEXT_MENU_PADDING);
         const x = Math.min(e.pageX, maxX);

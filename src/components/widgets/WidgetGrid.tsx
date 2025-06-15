@@ -4,6 +4,7 @@ import useWidgetsData from "../../hooks/useWidgets";
 import useTabsData from "../../hooks/useTabsData";
 import MenuPanel from "../common/MenuPanel";
 import TabBar from "../common/tabs/TabBar";
+import { DocsLink } from "../common/DocsLink";
 
 interface WidgetGridProps {
     activeTabId: ITab['id'];
@@ -46,5 +47,6 @@ export default function WidgetGrid({ activeTabId }: WidgetGridProps) {
         <MenuPanel
             onDeleteAll={deleteAll}
         />
+        <DocsLink />
     </>);
 }

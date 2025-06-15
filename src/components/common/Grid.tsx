@@ -5,7 +5,6 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
 import Widget from './Widget';
-import { Edit3, Plus } from 'lucide-react';
 import classname from '../../utils/classname';
 import { IWidget, IWidgetLayoutChange } from '../widgets/widget.type';
 import { GRID, NON_DRAGGABLE_CLASS } from '../../constants';
@@ -14,6 +13,7 @@ import WidgetSelector from './WidgetSelector';
 import { TileButton } from './buttons/TileButton';
 import WidgetContextMenu, { CONTEXT_MENU_PADDING, CONTEXT_MENU_WIDTH } from './WidgetContextMenu';
 import useMode from '../../hooks/useMode';
+import Guide from '../guides/Guide';
 
 interface IPosition {
     x: number;
@@ -154,15 +154,3 @@ export default function GridWidget({
         </>
     );
 };
-
-function Guide() {
-    return (
-        <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] text-white text-xl flex justify-center items-center">
-            <div>Click</div>
-            <div className="flex items-center justify-center px-2 mx-2 h-8 border border-white/40 rounded-2xl bg-white/15"><Edit3 size={20} /></div>
-            <div>then</div>
-            <div className="flex items-center justify-center px-2 mx-2 h-8 border border-white/40 rounded-2xl bg-white/15"><Plus size={20} /> Add </div>
-            <div>to add a new widget</div>
-        </div>
-    )
-}

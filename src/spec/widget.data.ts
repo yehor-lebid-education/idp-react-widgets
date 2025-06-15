@@ -33,6 +33,7 @@ export function getClockWidget(options?: Partial<IClockWidget['options']>): IClo
         id: 'preview-1',
         layout: { x: 0, y: 0, w: 2, h: 1 },
         options: isObject(options) ? { ...CLOCK_DEFAULT_OPTIONS, ...options } : CLOCK_DEFAULT_OPTIONS,
+        tabId: 'preview',
     });
 }
 
@@ -41,6 +42,7 @@ export function getCounterWidget(options?: Partial<ICounterWidget['options']>): 
         id: 'preview-2',
         layout: { x: 2, y: 0, w: 2, h: 2 },
         options: isObject(options) ? { ...COUNTER_DEFAULT_OPTIONS, ...options } : COUNTER_DEFAULT_OPTIONS,
+        tabId: 'preview',
     });
 }
 
@@ -49,6 +51,7 @@ export function getLinkWidget(options?: Partial<ILinkWidget['options']>): ILinkW
         id: 'test-3',
         layout: { x: 4, y: 0, w: 1, h: 1 },
         options: isObject(options) ? { ...LINK_DEFAULT_OPTIONS, ...options } : LINK_DEFAULT_OPTIONS,
+        tabId: 'preview',
     });
 }
 
@@ -57,6 +60,8 @@ export function getNotepadWidget(options?: Partial<INotepadWidget['options']>): 
         id: 'test-4',
         layout: { x: 0, y: 4, w: 2, h: 2 },
         options: isObject(options) ? { ...NOTEPAD_DEFAULT_OPTIONS, ...options } : NOTEPAD_DEFAULT_OPTIONS,
+        data: 'Example',
+        tabId: 'preview',
     });
 }
 
@@ -65,6 +70,8 @@ export function getTodoWidget(options?: Partial<ITodoWidget['options']>): ITodoW
         id: 'test-7',
         layout: { x: 4, y: 2, w: 3, h: 4 },
         options: isObject(options) ? { ...TODO_DEFAULT_OPTIONS, ...options } : TODO_DEFAULT_OPTIONS,
+        data: [{label: 'Write first task', id: 'preview-1', isDone: false}],
+        tabId: 'preview',
     });
 }
 
@@ -73,6 +80,7 @@ export function getPictureWidget(options?: Partial<IPictureWidget['options']>): 
         id: 'test-5',
         layout: { x: 0, y: 2, w: 2, h: 2 },
         options: isObject(options) ? { ...PICTURE_DEFAULT_OPTIONS, ...options } : PICTURE_DEFAULT_OPTIONS,
+        tabId: 'preview',
     });
 }
 
@@ -81,6 +89,7 @@ export function getQuoteWidget(options?: Partial<IQuoteWidget['options']>): IQuo
         id: 'test-6',
         layout: { x: 2, y: 2, w: 2, h: 2 },
         options: isObject(options) ? { ...QUOTE_DEFAULT_OPTIONS, ...options } : QUOTE_DEFAULT_OPTIONS,
+        tabId: 'preview',
     });
 }
 

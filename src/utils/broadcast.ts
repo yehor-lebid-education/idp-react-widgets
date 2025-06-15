@@ -1,4 +1,5 @@
-import { Action } from "../context/widget-context/reducer";
+import { Action } from "../context/widget-context/types";
+
 
 export type WidgetBroadcastMessage = {
     action: Action;

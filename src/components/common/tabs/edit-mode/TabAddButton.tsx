@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import ActionButton from "../buttons/ActionButton";
+import ActionButton from "../../buttons/ActionButton";
 
 type TabAddButtonProps = {
     onClick?: () => void;

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { tabId, widgetBroadcastChannel, WidgetBroadcastMessage } from "../utils/broadcast";
-import { useWidgetContext } from "../context/widget-context/reducer";
+import { useWidgetContext } from "../context/widget-context/WidgetContext";
 
 export default function useWidgetBroadcastHandler() {
     const { dispatch } = useWidgetContext();

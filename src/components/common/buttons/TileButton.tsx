@@ -20,8 +20,22 @@ type TileButtonProps = {
     position?: Position;
     className?: ClassName;
     onClick?: () => void;
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
 }
-export function TileButton({ icon, onClick, className, size = 24, position = 'top-left' }: TileButtonProps) {
+export function TileButton({
+    icon,
+    onClick,
+    className,
+    size = 24,
+    position = 'top-left',
+    top = undefined,
+    right = undefined,
+    bottom = undefined,
+    left = undefined,
+}: TileButtonProps) {
     function handleClick() {
         if (typeof onClick === 'function') {
             onClick();
@@ -30,6 +44,7 @@ export function TileButton({ icon, onClick, className, size = 24, position = 'to
 
     return (
         <button
+            style={{ top, right, bottom, left }}
             className={classname(
                 "transition rounded-2xl cursor-pointer absolute bg-white",
                 positionClass[position],

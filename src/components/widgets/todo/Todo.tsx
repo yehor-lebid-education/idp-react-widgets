@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Check, Plus, Trash2 } from "lucide-react";
 import generateId from "../../../utils/generate-id";
 import { ITodo, ITodoConfig, ITodoWidget } from "./todo.types";
-import { TODO_ADD_ICON_SIZE, TODO_DEFAULT_OPTIONS, TODO_DELETE_ICON_SIZE } from "./todo.config";
+import { TODO_ADD_ICON_SIZE, TODO_DEFAULT_OPTIONS } from "./todo.config";
 import useWidgetOptions from "../../../hooks/useWidgetOptions";
 import useWidgetData from "../../../hooks/useWidgetData";
 import Row from "../../common/ui/Row";

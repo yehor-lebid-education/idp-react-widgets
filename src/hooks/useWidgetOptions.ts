@@ -1,7 +1,8 @@
 import { useCallback } from "react";
 import { IWidget } from "../components/widgets/widget.type";
-import { ActionWidgetUpdateConfig, useWidgetContext } from "../context/widget-context/reducer";
 import { widgetBroadcastChannel } from "../utils/broadcast";
+import { ActionWidgetUpdateConfig } from "../context/widget-context/types";
+import useWidgetContextWithBroadcast from "./useWidgetContextWithBroadcast";
 
 type Options = ActionWidgetUpdateConfig['payload']['options'];
 
@@ -9,7 +10,7 @@ export default function useWidgetOptions<T extends Options = Options>(id: IWidge
     widgetOptions: T | null;
     updateWidgetOptions: (options: T) => void;
 } {
-    const { state, dispatch } = useWidgetContext();
+    const { state, dispatch } = useWidgetContextWithBroadcast();
 
     const widget = state.widgets.find(({ id: widgetId }) => widgetId === id);
     const updateWidgetOptions = useCallback((options: Options) => {

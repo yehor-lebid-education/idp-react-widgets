@@ -1,4 +1,4 @@
-import classname from "../../../utils/classname";
+import classname, { ClassName } from "../../../utils/classname";
 import Text from "../ui/Text";
 import "./input.css";
 
@@ -9,7 +9,9 @@ type InputProps<T extends number | string> = {
     name: string;
     onChange?: (v: T) => void;
 
-    width?: 50 | 100 | 150 | 180 | 200;
+    size?: number;
+    className?: ClassName
+    width?: 50 | 100 | 150 | 180 | 200 | 'auto';
     label?: string;
     readonly?: boolean;
     placeholder?: string;
@@ -81,8 +83,9 @@ function NumberInput({ value, name, onChange, label, placeholder, readonly, ...p
                 max={max}
                 readOnly={readonly}
                 onChange={handleChange}
-                className={classname(INPUT_STYLE_CLASS)}
+                className={classname(INPUT_STYLE_CLASS, props?.className)}
                 style={{ width }}
+                size={props.size}
             />
         </>
     );
@@ -117,12 +120,13 @@ function TextInput({ value, name, onChange, label, placeholder, readonly, ...pro
                 name={name}
                 value={value}
                 placeholder={placeholder}
-                className={INPUT_STYLE_CLASS}
+                className={classname(INPUT_STYLE_CLASS, props?.className)}
                 minLength={minLength || 0}
                 maxLength={maxLength || 100}
                 readOnly={readonly}
                 onChange={handleChange}
                 style={{ width }}
+                size={props.size}
             />
         </>
     );
@@ -150,10 +154,11 @@ function UrlInput({ value, name, onChange, label, placeholder, readonly, ...prop
                 name={name}
                 value={value}
                 placeholder={placeholder}
-                className={INPUT_STYLE_CLASS}
+                className={classname(INPUT_STYLE_CLASS, props?.className)}
                 readOnly={readonly}
                 onChange={handleChange}
                 style={{ width }}
+                size={props.size}
             />
         </>
     );

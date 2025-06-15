@@ -13,6 +13,7 @@ import { hasLayoutChange } from '../widgets/widget.helper';
 import WidgetSelector from './WidgetSelector';
 import { TileButton } from './buttons/TileButton';
 import WidgetContextMenu, { CONTEXT_MENU_PADDING, CONTEXT_MENU_WIDTH } from './WidgetContextMenu';
+import ActionButton from './buttons/ActionButton';
 
 interface IPosition {
     x: number;
@@ -111,7 +112,7 @@ export default function GridWidget({
     }
 
     return (
-        <div className="w-screen h-screen bg-black">
+        <>
             <GridLayout
                 className="layout"
                 cols={GRID.COLS}
@@ -180,7 +181,7 @@ export default function GridWidget({
                     onAdd={(widget: IWidget) => handleAddWidget(widget)}
                 />)
             }
-        </div>
+        </>
     );
 };
 
@@ -202,13 +203,12 @@ interface AddWidgetButtonProps {
 }
 function AddWidgetButton({ onClick }: AddWidgetButtonProps) {
     return (
-        <button
-            onClick={() => onClick()}
-            title="Add"
-            className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-transparent text-white hover:bg-white/20 transition shadow-md cursor-pointer"
+        <ActionButton
+            title="Add Widget"
+            onClick={onClick}
         >
             <Plus size={20} /> Add
-        </button>
+        </ActionButton>
     );
 }
 
@@ -219,14 +219,13 @@ interface EditViewGridButtonProps {
 }
 function EditViewGridButton({ editMode, onClick }: EditViewGridButtonProps) {
     return (
-        <button
+        <ActionButton
             onClick={() => onClick()}
             title={editMode ? 'View' : 'Edit'}
-            className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-transparent text-white hover:bg-white/20 transition shadow-md cursor-pointer"
         >
             {editMode ? <Eye size={20} /> : <Edit3 size={20} />}
             {editMode ? 'View' : ''}
-        </button>
+        </ActionButton>
     );
 }
 
@@ -247,15 +246,16 @@ function DeleteAllButton({ onClick }: AddWidgetButtonProps) {
     }
 
     return (
-        <button
+        <ActionButton
             onClick={handleClick}
-            title="Delete All"
+            title="Delete All Widgets and Tabs"
+            overwriteDefaultClass={true}
             className={classname(
                 "flex items-center gap-2 px-3 py-2 rounded-2xl text-white transition shadow-md cursor-pointer",
                 confirm ? "bg-red-400 hover:bg-red-400" : "bg-transparent hover:bg-white/20"
             )}
         >
-            <Trash2 size={20} /> Delete all
-        </button>
+            <Trash2 size={20} /> Delete All
+        </ActionButton>
     );
 }

@@ -1,69 +1,66 @@
-# React + TypeScript + Vite
+# React Widget App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modular dashboard application built with **React**, **TypeScript**, and **Vite**. It allows users to add, configure, and arrange widgets (like Todo, Notepad, Quote, Clock, Counter, Picture, and Link) on a customizable grid layout. The app features live editing, preview modes, and persistent state management.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 🧩 Add and arrange widgets on a drag-and-drop grid
+- 🎛️ Configure widget settings live
+- 💾 Persistent state and multi-tab support
+- ⚡ Built with modern React, Tailwind CSS, and Vite
+- 🧠 Easily extensible widget system
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 🚀 Tech Stack
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **React 19**
+- **TypeScript**
+- **Vite**
+- **Tailwind CSS**
+- **react-grid-layout**
+- **lucide-react**
+- **React Router**
+- **uuid**
+- **dayjs**
+- **ESLint**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 📦 Installation
 
+```bash
+# 1. Clone the repository
+git clone https://github.com/your-username/react-widget-app.git
+cd react-widget-app
 
+# 2. Install dependencies
+npm install
+````
 
+---
 
-### Supabase
+## 🛠️ Scripts
 
-```
-supabase login
+| Command           | Description                      |
+| ----------------- | -------------------------------- |
+| `npm run dev`     | Start the development server     |
+| `npm run build`   | Build the project for production |
+| `npm run preview` | Preview the production build     |
+| `npm run lint`    | Run ESLint on the codebase       |
 
-supabase link
+---
 
-supabase migration new <MIGRATION_NAME>
+## 🧪 Example Widgets
 
-supabase db push
-```
+* ✅ **Todo** — with checkbox list & persistence
+* 📝 **Notepad** — markdown-friendly text editor
+* ⏰ **Clock** — real-time local time display
+* 📸 **Picture** — customizable image block
+* 🔗 **Link** — shortcut to any URL
+* 💡 **Quote** — random inspirational quotes
+* ➕ **Counter** — increment/decrement with state
+
+---

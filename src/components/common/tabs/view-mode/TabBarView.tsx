@@ -1,5 +1,4 @@
 import { ITab } from "../../../widgets/tab.type";
-import Text from "../../ui/Text";
 import TabListView from "./TabListView";
 
 type TabBarViewProps = {

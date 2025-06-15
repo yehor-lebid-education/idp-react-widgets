@@ -1,6 +1,5 @@
 import useMode from "../../../hooks/useMode";
 import { ITab } from "../../widgets/tab.type";
-import Text from "../ui/Text";
 import TabBarEdit from "./edit-mode/TabBarEdit";
 import TabBarView from "./view-mode/TabBarView";
 

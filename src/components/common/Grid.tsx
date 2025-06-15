@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import GridLayout, { Layout } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
@@ -35,19 +35,9 @@ export default function GridWidget({
     onWidgetDelete,
     onWidgetAdd,
 }: GridWidgetProps) {
-    const [widgetContextMenu, setWidgetContextMenu] = useState<{ widget: IWidget; position: IPosition } | null>(null);
     const { editMode, addMode, setMode } = useMode();
-
-    useEffect(() => {
-        if (!widgetContextMenu) {
-            return;
-        }
-
-        const newWidget = widgets.find(({ id }) => id === widgetContextMenu.widget.id);
-        if (!newWidget) setWidgetContextMenu(null);
-        else setWidgetContextMenu({ ...widgetContextMenu, widget: newWidget });
-
-    }, [widgets]);
+    const [contextMenu, setContextMenu] = useState<{ widgetId: IWidget['id']; position: IPosition } | null>(null);
+    const contextMenuWidget = (contextMenu && widgets.find(({ id }) => id === contextMenu.widgetId)) || null;
 
     function handleLayoutChange(_layout: Layout[], _oldLayout: Layout, newLayout: Layout) {
         if (typeof onWidgetLayoutChange !== 'function') {
@@ -97,7 +87,7 @@ export default function GridWidget({
         const x = Math.min(e.pageX, maxX);
         const y = e.pageY;
 
-        setWidgetContextMenu({ widget, position: { x, y } });
+        setContextMenu({ widgetId: widget.id, position: { x, y } });
     }
 
     return (
@@ -125,7 +115,7 @@ export default function GridWidget({
                         className={classname(
                             "bg-white/10 border border-white/20 rounded-2xl backdrop-blur-md shadow-lg flex items-center justify-center text-white font-mono",
                             editMode && "border-2 animate-[pulse-border_3s_ease-in-out_infinite]",
-                            widget.id === widgetContextMenu?.widget.id && "border-4 border-white/80",
+                            widget.id === contextMenu?.widgetId && "border-4 border-white/80",
                         )}
                     >
                         {editMode && <TileButton icon="minus" position="top-left" className={[NON_DRAGGABLE_CLASS, 'hover:bg-red-400']} onClick={() => handleDeleteWidget(widget.id)} />}
@@ -140,11 +130,11 @@ export default function GridWidget({
             </GridLayout>
 
 
-            {widgetContextMenu && (
+            {contextMenu && contextMenuWidget && (
                 <WidgetContextMenu
-                    widget={widgetContextMenu.widget}
-                    position={widgetContextMenu.position}
-                    onClose={() => setWidgetContextMenu(null)}
+                    widget={contextMenuWidget}
+                    position={contextMenu.position}
+                    onClose={() => setContextMenu(null)}
                     onChange={onWidgetConfigChange}
                 />
             )}

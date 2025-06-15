@@ -14,7 +14,6 @@ type TabItemEditProps = {
 export default function TabItemEdit({
     tab,
     forbidDelete,
-    isActive,
     onUpdateTab,
     onDeleteTab
 }: TabItemEditProps) {

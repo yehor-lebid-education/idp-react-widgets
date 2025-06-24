@@ -2,7 +2,7 @@ import { IWidgetLayoutConfig } from "../widget.type";
 import { INotepadWidget } from "./notepad.types";
 
 export const NOTEPAD_LAYOUT_CONFIG: IWidgetLayoutConfig = {
-    minH: 3,
+    minH: 4,
     minW: 2,
     maxH: 9,
     maxW: 4,

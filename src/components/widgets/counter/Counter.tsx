@@ -1,47 +1,44 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Minus, Plus, RotateCcw } from "lucide-react";
-import * as storage from '../../../utils/storage.helper';
-import { ICounterOptions, ICounterWidget } from "./counter.types";
-import { COUNTER_BUTTONS_SIZE } from "./counter.config";
+import { ICounterConfig, ICounterWidget } from "./counter.types";
+import { COUNTER_BUTTONS_SIZE, COUNTER_DEFAULT_OPTIONS } from "./counter.config";
 import WidgetContainer from "../../common/WidgetContainer";
+import useWidgetOptions from "../../../hooks/useWidgetOptions";
+import useWidgetData from "../../../hooks/useWidgetData";
 
 interface CounterProps {
     id: ICounterWidget['id'];
-    options: ICounterOptions;
+    previewMode?: boolean;
 }
 
-export default function Counter({ id, options }: CounterProps) {
-    if (options?.mode === 'preview') {
+export default function Counter({ id, previewMode }: CounterProps) {
+    if (previewMode) {
         return <CounterPreviewWidget />
     }
 
-    return <CounterWidget id={id} options={options} />
+    return <CounterWidget id={id} />
 }
 
 /**
  * A Main Counter Widget used on grid.
  */
-function CounterWidget({ id, options }: CounterProps) {
-    const { step, total, label } = options;
-    const [counter, setCounter] = useState<number>(() => {
-        const value = storage.get(id);
-        return typeof value === 'number' && !isNaN(value) ? value : 0;
-    });
+function CounterWidget({ id }: { id: ICounterWidget['id'] }) {
+    const { widgetOptions } = useWidgetOptions<ICounterConfig>(id);
+    const { step, total, label } = widgetOptions || COUNTER_DEFAULT_OPTIONS;
 
-    useEffect(() => {
-        storage.save(id, counter);
-    }, [id, counter]);
+    const { widgetData, updateWidgetData } = useWidgetData<ICounterWidget['data']>(id);
+    const counter = typeof widgetData === 'number' && !isNaN(widgetData) ? widgetData : 0;
 
     function increment() {
-        setCounter(prevCounter => prevCounter + step >= total ? total : prevCounter + step);
+        updateWidgetData(counter + step >= total ? total : counter + step);
     }
 
     function decrement() {
-        setCounter(prevCounter => prevCounter - step >= 0 ? prevCounter - step : 0);
+        updateWidgetData(counter - step >= 0 ? counter - step : 0);
     }
 
     function reset() {
-        setCounter(0);
+        updateWidgetData(0);
     }
 
     return (

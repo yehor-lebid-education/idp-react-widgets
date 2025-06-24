@@ -1,24 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 import { IQuote } from "./quote.data";
 import { getRandomQuote } from "./quote.helper";
-import { IQuoteOptions } from "./quote.types";
-import { QUOTE_REFRESH_DURATION } from "./quote.config";
+import { IQuoteConfig, IQuoteWidget } from "./quote.types";
+import { QUOTE_DEFAULT_OPTIONS } from "./quote.config";
+import useWidgetOptions from "../../../hooks/useWidgetOptions";
 
 interface QuoteProps {
-    options: IQuoteOptions;
+    id: IQuoteWidget['id'];
+    previewMode?: boolean;
 }
 
-export default function Quote({ options }: QuoteProps) {
-    if (options.mode === 'preview') {
+export default function Quote({ id, previewMode }: QuoteProps) {
+    if (previewMode) {
         return <QuotePreviewWidget />;
     }
 
-    return <QuoteWidget options={options} />;
+    return <QuoteWidget id={id} />;
 }
 
-function QuoteWidget({ options }: QuoteProps) {
-    const { current } = useRef<{ intervalId: number|undefined }>({ intervalId: undefined });
+function QuoteWidget({ id }: { id: IQuoteWidget['id'] }) {
+    const { widgetOptions } = useWidgetOptions<IQuoteConfig>(id);
+    const { refreshDuration } = widgetOptions || QUOTE_DEFAULT_OPTIONS;
+
     const [quote, setQuote] = useState<IQuote>(getRandomQuote());
+    const { current } = useRef<{ intervalId?: number | NodeJS.Timeout }>({ intervalId: undefined });
 
     useEffect(() => {
         if (current.intervalId) {
@@ -27,11 +32,11 @@ function QuoteWidget({ options }: QuoteProps) {
 
         current.intervalId = setInterval(
             () => setQuote(getRandomQuote()),
-            options.refreshDuration || QUOTE_REFRESH_DURATION
+            refreshDuration || QUOTE_DEFAULT_OPTIONS.refreshDuration,
         );
 
         return () => clearInterval(current.intervalId);
-    }, [current, options.refreshDuration]);
+    }, [current, refreshDuration]);
 
     return (
         <div className="flex justify-around items-center h-full w-full">

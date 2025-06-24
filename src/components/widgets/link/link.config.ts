@@ -7,7 +7,7 @@ export const LINK_LAYOUT_CONFIG: IWidgetLayoutConfig = {
     minH: 1,
     minW: 1,
     maxH: 2,
-    maxW: 1,
+    maxW: 2,
 } as const
 
 export const LINK_DEFAULT_OPTIONS: ILinkWidget['options'] = { label: 'Google', url: 'https://google.com' };

@@ -9,4 +9,5 @@ export type INotepadOptions = IWidgetCommonOptions & INotepadConfig;
 export interface INotepadWidget extends IWidgetCommon {
     type: 'notepad';
     options: INotepadOptions;
+    data: string;
 }

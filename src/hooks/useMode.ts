@@ -1,21 +1,23 @@
-import { useModeContext } from "../context/mode-context/ModeContext";
-import { Mode } from "../context/mode-context/types";
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '../storage/store';
+import { ModeState, setMode, toggleMode } from '../storage/reducers/modeReducer';
 
 export default function useMode() {
-    const { state, dispatch } = useModeContext();
+    const { edit, add } = useSelector((state: RootState) => state.mode);
+    const dispatch = useDispatch<AppDispatch>();
 
-    function setMode(mode: Mode, value: boolean) {
-        dispatch({ type: 'MODE_SET', payload: { mode, value } });
+    function _setMode(mode: keyof ModeState, value: boolean) {
+        dispatch(setMode({ mode, value }));
     }
 
-    function toggleMode(mode: Mode) {
-        dispatch({ type: 'MODE_TOGGLE', payload: { mode } });
+    function _toggleMode(mode: keyof ModeState) {
+        dispatch(toggleMode(mode));
     }
 
     return {
-        editMode: state.edit,
-        addMode: state.add,
-        setMode,
-        toggleMode,
+        editMode: edit,
+        addMode: add,
+        setMode: _setMode,
+        toggleMode: _toggleMode,
     };
 }

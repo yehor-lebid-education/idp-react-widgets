@@ -1,48 +1,37 @@
-import { useEffect, useReducer } from "react";
+import { applyWidgetOptions } from "../../../components/widgets/widget.helper";
+import { ITab } from "../../../components/widgets/tab.type";
+import * as storage from "../../../utils/storage.helper";
+import generateId from "../../../utils/generate-id";
+import { WidgetState } from "./types";
 
-import { State } from "./types";
-import * as storage from "../../utils/storage.helper";
-import { getDefaultState, STORAGE_KEY } from "./defaults";
-import { applyWidgetOptions } from "../../components/widgets/widget.helper";
-import { reducer } from "./reducer";
-import { WidgetContext } from "./WidgetContext";
+export const getDefaultTab = (): ITab => ({
+    id: generateId(),
+    title: 'Tab 1',
+});
 
+export const getDefaultState = (): WidgetState => ({
+    tabs: [getDefaultTab()],
+    widgets: [],
+    widgetsData: {},
+});
 
-interface WidgetContextProviderProps {
-    children?: React.ReactNode;
-}
-export function WidgetContextProvider({ children }: WidgetContextProviderProps) {
-    const [state, dispatch] = useReducer(reducer, getInitialState());
+export const STORAGE_KEY = 'widgets_state';
 
-    useEffect(() => {
-        storage.save(STORAGE_KEY, state);
-    }, [state]);
-
-    return (
-        <WidgetContext.Provider value={{ state, dispatch }}>
-            {children}
-        </WidgetContext.Provider>
-    )
-}
-
-// TOOLS:
-function getInitialState(): State {
+export function getInitialState(): WidgetState {
     const value = storage.get(STORAGE_KEY);
-
     const storageState = handleStateFromStorage(value);
-
     return storageState;
 }
 
 
-function handleStateFromStorage(state: unknown): State {
+function handleStateFromStorage(state: unknown): WidgetState {
     const {
         tabs: defaultTabs,
         widgets: defaultWidgets,
         widgetsData: defaultWidgetsData,
     } = getDefaultState();
 
-    const validState: State = {
+    const validState: WidgetState = {
         tabs: isValidTabs(state)               ? state.tabs        : defaultTabs,
         widgets: isValidWidgets(state)         ? state.widgets     : defaultWidgets,
         widgetsData: isValidWidgetsData(state) ? state.widgetsData : defaultWidgetsData,
@@ -54,7 +43,7 @@ function handleStateFromStorage(state: unknown): State {
     return validState;
 }
 
-function isValidTabs(state: unknown): state is { tabs: State['tabs'] } {
+function isValidTabs(state: unknown): state is { tabs: WidgetState['tabs'] } {
     if (typeof state !== 'object' || state === null) {
         return false;
     }
@@ -66,7 +55,7 @@ function isValidTabs(state: unknown): state is { tabs: State['tabs'] } {
     return state.tabs.length > 0;
 }
 
-function isValidWidgets(state: unknown): state is { widgets: State['widgets'] } {
+function isValidWidgets(state: unknown): state is { widgets: WidgetState['widgets'] } {
     if (typeof state !== 'object' || state === null) {
         return false;
     }
@@ -78,7 +67,7 @@ function isValidWidgets(state: unknown): state is { widgets: State['widgets'] } 
     return true;
 }
 
-function isValidWidgetsData(state: unknown): state is { widgetsData: State['widgetsData'] } {
+function isValidWidgetsData(state: unknown): state is { widgetsData: WidgetState['widgetsData'] } {
     if (typeof state !== 'object' || state === null) {
         return false;
     }

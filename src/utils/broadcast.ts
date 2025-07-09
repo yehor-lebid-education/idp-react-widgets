@@ -1,4 +1,4 @@
-import { Action } from "../context/widget-context/types";
+import { Action } from "@reduxjs/toolkit";
 
 
 export type WidgetBroadcastMessage = {

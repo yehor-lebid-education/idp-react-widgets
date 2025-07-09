@@ -1,9 +1,10 @@
 import { useEffect } from "react";
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from "../storage/store";
 import { tabId, widgetBroadcastChannel, WidgetBroadcastMessage } from "../utils/broadcast";
-import { useWidgetContext } from "../context/widget-context/WidgetContext";
 
 export default function useWidgetBroadcastHandler() {
-    const { dispatch } = useWidgetContext();
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         const handleMessage = (event: MessageEvent<WidgetBroadcastMessage>) => {
@@ -21,7 +22,11 @@ export default function useWidgetBroadcastHandler() {
             }
 
             console.debug("Apply action from widget broadcast channel:", event.data);
-            dispatch(event.data.action);
+            dispatch({
+                ...event.data.action,
+                // Change was received from broadcast, no need to emit again
+                meta: { skipBroadcast: true },
+            });
         };
 
         widgetBroadcastChannel.addEventListener(handleMessage);

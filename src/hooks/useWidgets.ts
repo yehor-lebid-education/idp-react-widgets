@@ -1,30 +1,31 @@
+import { useDispatch, useSelector } from "react-redux";
 import { ITab } from "../components/widgets/tab.type";
+import { AppDispatch, RootState } from "../storage/store";
 import { IWidget, IWidgetLayoutChange } from "../components/widgets/widget.type";
-import useWidgetContextWithBroadcast from "./useWidgetContextWithBroadcast";
+import { addWidget, deleteAll, deleteWidget, updateWidgetOptions, updateWidgetLayout } from "../storage/reducers/widgetsReducer";
 
 export default function useWidgetsData() {
-    const { state, dispatch } = useWidgetContextWithBroadcast();
-    const widgets = state.widgets;
+    const widgets = useSelector((state: RootState) => state.widgets.widgets);
+    const dispatch = useDispatch<AppDispatch>();
 
-    const widgetDelete = (id: IWidget['id']) => dispatch({
-        type: 'WIDGET_DELETE',
-        payload: { id }
-    });
-    const widgetUpdateConfig = (id: IWidget['id'], options: Partial<IWidget['options']>) => dispatch({
-        type: 'WIDGET_UPDATE_CONFIG',
-        payload: { id, options }
-    });
-    const widgetUpdateLayout = (id: IWidget['id'], layout: IWidgetLayoutChange) => dispatch({
-        type: 'WIDGET_UPDATE_LAYOUT',
-        payload: { id, layout }
-    });
-    const widgetAdd = (widget: IWidget, tabId: ITab['id']) => dispatch({
-        type: 'WIDGET_ADD',
-        payload: { widget: { ...widget, tabId } }
-    });
-    const deleteAll = () => dispatch({
-        type: 'DELETE_ALL',
-    });
+    const widgetDelete = (id: IWidget['id']) => dispatch(deleteWidget({ id }));
+
+    const widgetUpdateConfig = (
+        id: IWidget['id'],
+        options: Partial<IWidget['options']>
+    ) => dispatch(updateWidgetOptions({ id, options }));
+
+    const widgetUpdateLayout = (
+        id: IWidget['id'],
+        layout: IWidgetLayoutChange
+    ) => dispatch(updateWidgetLayout({ id, layout }));
+
+    const widgetAdd = (
+        widget: IWidget,
+        tabId: ITab['id']
+    ) => dispatch(addWidget({ widget: { ...widget, tabId } }));
+
+    const _deleteAll = () => dispatch(deleteAll());
 
     return {
         widgets,
@@ -32,6 +33,6 @@ export default function useWidgetsData() {
         widgetUpdateConfig,
         widgetUpdateLayout,
         widgetAdd,
-        deleteAll,
+        deleteAll: _deleteAll,
     };
 }

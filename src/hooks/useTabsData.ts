@@ -1,26 +1,28 @@
+import { RootState } from "../storage/store";
 import { ITab } from "../components/widgets/tab.type";
-import useWidgetContextWithBroadcast from "./useWidgetContextWithBroadcast";
+import { useDispatch, useSelector } from "react-redux";
+import { addTab, deleteTab, updateTab } from "../storage/reducers/widgetsReducer";
 
 export default function useTabsData() {
-    const { state, dispatch } = useWidgetContextWithBroadcast();
+    const tabs = useSelector((state: RootState) => state.widgets.tabs);
+    const dispatch = useDispatch();
 
-    function addTab() {
-        dispatch({ type: 'TAB_ADD' });
+    function _addTab() {
+        dispatch(addTab());
     }
 
-    function deleteTab(tabId: ITab['id']) {
-        if (state.tabs.length <= 1) return; // Prevent deleting the last tab
-        dispatch({ type: 'TAB_DELETE', payload: { id: tabId }});
+    function _deleteTab(tabId: ITab['id']) {
+        dispatch(deleteTab({ id: tabId }));
     }
 
-    function updateTab(tabId: ITab['id'], title: string) {
-        dispatch({ type: 'TAB_UPDATE', payload: { id: tabId, title }});
+    function _updateTab(tabId: ITab['id'], title: string) {
+        dispatch(updateTab({ id: tabId, title }));
     }
 
     return {
-        tabs: state.tabs,
-        addTab,
-        updateTab,
-        deleteTab,
+        tabs,
+        addTab: _addTab,
+        updateTab: _updateTab,
+        deleteTab: _deleteTab,
     };
 }

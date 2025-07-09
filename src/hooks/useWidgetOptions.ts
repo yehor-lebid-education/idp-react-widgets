@@ -1,27 +1,24 @@
-import { useCallback } from "react";
 import { IWidget } from "../components/widgets/widget.type";
-import { widgetBroadcastChannel } from "../utils/broadcast";
-import { ActionWidgetUpdateConfig } from "../context/widget-context/types";
-import useWidgetContextWithBroadcast from "./useWidgetContextWithBroadcast";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../storage/store";
+import { updateWidgetOptions } from "../storage/reducers/widgetsReducer";
 
-type Options = ActionWidgetUpdateConfig['payload']['options'];
-
-export default function useWidgetOptions<T extends Options = Options>(id: IWidget['id']): {
+export default function useWidgetOptions<T extends Partial<IWidget['options']> = Partial<IWidget['options']>>(id: IWidget['id']): {
     widgetOptions: T | null;
     updateWidgetOptions: (options: T) => void;
 } {
-    const { state, dispatch } = useWidgetContextWithBroadcast();
-
-    const widget = state.widgets.find(({ id: widgetId }) => widgetId === id);
-    const updateWidgetOptions = useCallback((options: Options) => {
-        const action = { type: 'WIDGET_UPDATE_CONFIG', payload: { id, options } } as const;
-
-        dispatch(action);
-        widgetBroadcastChannel.postMessage(action);
-    }, [dispatch, id]);
+    const widgetOptions = useSelector((state: RootState) => {
+        const widget = state.widgets.widgets.find(({ id: widgetId }) => widgetId === id);    
+        return widget?.options as T || null;
+    });
+    const dispatch  = useDispatch<AppDispatch>();
+    
+    const _updateWidgetOptions = (options: Partial<IWidget['options']>) => {
+        dispatch(updateWidgetOptions({ id, options }));
+    }
 
     return {
-        widgetOptions: widget?.options as T || null,
-        updateWidgetOptions,
+        widgetOptions,
+        updateWidgetOptions: _updateWidgetOptions,
     }
 }

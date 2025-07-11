@@ -1,0 +1,21 @@
+/*
+  Border pulsing animation. Can be applied via:
+    animate-pulse-border
+    animate-[pulse-border_3s_linear_infinite]
+*/
+
+@layer utilities {
+  .pulse-border {
+    animation: pulse-border 3s infinite;
+  }
+
+  @keyframes pulse-border {
+    0%,
+    100% {
+      border-color: rgba(255, 255, 255, 0.6); /* normal color */
+    }
+    50% {
+      border-color: rgba(255, 255, 255, 0.2); /* pulse color */
+    }
+  }
+}

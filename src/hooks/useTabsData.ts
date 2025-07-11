@@ -16,6 +16,7 @@ export default function useTabsData() {
     }
 
     function _updateTab(tabId: ITab['id'], title: string) {
+        console.log('update tab', tabId, title);
         dispatch(updateTab({ id: tabId, title }));
     }
 

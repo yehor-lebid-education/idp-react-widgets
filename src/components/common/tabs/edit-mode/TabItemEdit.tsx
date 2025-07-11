@@ -18,7 +18,8 @@ export default function TabItemEdit({
     onDeleteTab
 }: TabItemEditProps) {
     function handleUpdate(title: string) {
-        if (typeof onUpdateTab === 'function' && !forbidDelete) {
+        console.log({ newTitle: title });
+        if (typeof onUpdateTab === 'function') {
             onUpdateTab(tab.id, title);
         }
     }
